@@ -93,7 +93,9 @@ export function loadMoonTexture(quality: MoonTextureQuality): Promise<THREE.Text
   return promise
 }
 
-/** Preload 4K in the background after the app is interactive. */
+/** Preload 4K / 8K in the background after the app is interactive. */
 export function preloadOptionalMoonTextures() {
-  loadMoonTexture('4k').catch(() => {})
+  for (const q of ['4k', '8k'] as const) {
+    loadMoonTexture(q).catch(() => {})
+  }
 }

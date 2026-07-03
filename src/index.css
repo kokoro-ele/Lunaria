@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #04060a;
+  color: #e8edf6;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+@layer components {
+  .panel {
+    @apply border border-space-line bg-white/[0.015] backdrop-blur-md;
+  }
+
+  .hairline {
+    @apply border border-space-line;
+  }
+
+  .label {
+    @apply text-[10px] uppercase tracking-widest2 text-white/40 font-mono;
+  }
+
+  .btn-line {
+    @apply border border-space-line px-4 py-2 text-xs tracking-[0.18em] uppercase
+      text-white/70 transition-all duration-300 hover:text-white
+      hover:border-white/40 hover:bg-white/[0.03];
+  }
+
+  .field {
+    @apply bg-transparent border border-space-line px-3 py-2 text-sm text-white/90
+      outline-none transition-colors focus:border-white/40 font-mono;
+  }
+}
+
+/* Native date/time picker styling */
+input[type='date'],
+input[type='time'] {
+  color-scheme: dark;
+}
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+/* Thin scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+canvas {
+  touch-action: none;
+  display: block;
+}

@@ -1,0 +1,67 @@
+{
+  "app": {
+    "title": "Lunaria",
+    "tagline": "The moon, exactly as it was.",
+    "github": "View source on GitHub"
+  },
+  "controls": {
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "timezone": "Local time zone",
+    "coordinates": "Coordinates",
+    "pickOnGlobe": "Click the globe to choose a place",
+    "selectPrompt": "Spin the globe and pick your place",
+    "today": "Now",
+    "hiRes": "High-resolution textures",
+    "tiltCorrection": "Local viewing angle",
+    "tiltTooltip": "The Moon always turns the same face to Earth, so its surface barely changes. But where and when you look changes how it tilts in the sky. When on, the Moon is shown at the angle you'd actually see from the chosen place and time. Turn it off to freely rotate the Moon.",
+    "panelTitle": "Controls",
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
+  "moon": {
+    "phase": "Phase",
+    "illumination": "Illumination",
+    "age": "Moon age",
+    "distance": "Distance",
+    "days": "days",
+    "phases": {
+      "new": "New Moon",
+      "waxingCrescent": "Waxing Crescent",
+      "firstQuarter": "First Quarter",
+      "waxingGibbous": "Waxing Gibbous",
+      "full": "Full Moon",
+      "waningGibbous": "Waning Gibbous",
+      "lastQuarter": "Last Quarter",
+      "waningCrescent": "Waning Crescent"
+    }
+  },
+  "share": {
+    "button": "Share",
+    "title": "Create a keepsake",
+    "message": "Your message",
+    "messagePlaceholder": "Write something to remember…",
+    "presets": "Suggestions",
+    "download": "Download image",
+    "rendering": "Composing…",
+    "close": "Close",
+    "presetList": {
+      "birth": "The moon on the day you were born",
+      "metYou": "The moon on the night we met",
+      "yours": "That night's moon belongs to you",
+      "sameMoon": "We look up at the same moon",
+      "anniversary": "The sky on our anniversary",
+      "firstDay": "The moon watching over our first day"
+    },
+    "watermark": "Captured with Lunaria"
+  },
+  "footer": {
+    "credit": "Positions computed with Astronomy Engine"
+  },
+  "lang": {
+    "switch": "Language",
+    "en": "English",
+    "zh": "中文"
+  }
+}

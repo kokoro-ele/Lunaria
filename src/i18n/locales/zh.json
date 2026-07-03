@@ -1,0 +1,67 @@
+{
+  "app": {
+    "title": "Lunaria",
+    "tagline": "那一刻的月亮，分毫不差。",
+    "github": "在 GitHub 查看源码"
+  },
+  "controls": {
+    "date": "日期",
+    "time": "时间",
+    "location": "地点",
+    "timezone": "当地时区",
+    "coordinates": "坐标",
+    "pickOnGlobe": "点击地球仪选择地点",
+    "selectPrompt": "转动地球仪，选择你的地点",
+    "today": "此刻",
+    "hiRes": "高解析度贴图",
+    "tiltCorrection": "本地观测角度",
+    "tiltTooltip": "月亮始终以同一面朝向地球，所以表面几乎不变。但你在何地、何时仰望，会改变它在夜空中倾斜的角度。开启后，月亮会按你所选地点与时刻实际看到的角度呈现。关闭后可自由旋转月球。",
+    "panelTitle": "控制台",
+    "collapse": "收起",
+    "expand": "展开"
+  },
+  "moon": {
+    "phase": "月相",
+    "illumination": "照亮比例",
+    "age": "月龄",
+    "distance": "距离",
+    "days": "天",
+    "phases": {
+      "new": "新月",
+      "waxingCrescent": "娥眉月",
+      "firstQuarter": "上弦月",
+      "waxingGibbous": "盈凸月",
+      "full": "满月",
+      "waningGibbous": "亏凸月",
+      "lastQuarter": "下弦月",
+      "waningCrescent": "残月"
+    }
+  },
+  "share": {
+    "button": "分享",
+    "title": "生成纪念卡片",
+    "message": "你的留言",
+    "messagePlaceholder": "写下想记住的话…",
+    "presets": "候选留言",
+    "download": "下载图片",
+    "rendering": "合成中…",
+    "close": "关闭",
+    "presetList": {
+      "birth": "你出生那天的月亮",
+      "metYou": "我们相遇那夜的月亮",
+      "yours": "那一夜的月亮属于你",
+      "sameMoon": "我们仰望着同一个月亮",
+      "anniversary": "纪念日那天的夜空",
+      "firstDay": "守护我们第一天的月亮"
+    },
+    "watermark": "由 Lunaria 记录"
+  },
+  "footer": {
+    "credit": "由 Astronomy Engine 精确计算"
+  },
+  "lang": {
+    "switch": "语言",
+    "en": "English",
+    "zh": "中文"
+  }
+}

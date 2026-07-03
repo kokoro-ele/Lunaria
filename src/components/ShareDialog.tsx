@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { snapshotMoon } from '../lib/capture'
-import { nodeToPng, shareOrDownloadImage, supportsImageShare } from '../lib/share'
+import { SHARE_CARD } from '../lib/shareCardLayout'
+import { composeShareCard, shareOrDownloadImage, supportsImageShare } from '../lib/share'
 import type { MoonView } from '../lib/astronomy'
 
 const PRESETS = ['birth', 'metYou', 'yours', 'sameMoon', 'anniversary', 'firstDay']
@@ -44,10 +45,17 @@ export default function ShareDialog({
   if (!open) return null
 
   const handleSave = async () => {
-    if (!cardRef.current) return
     setBusy(true)
     try {
-      const png = await nodeToPng(cardRef.current)
+      const moonDataUrl = snapshotMoon() ?? moonImg
+      const png = await composeShareCard({
+        brandTitle: t('app.title'),
+        moonDataUrl,
+        message: message || t(`share.presetList.${PRESETS[0]}`),
+        dateLabel,
+        metaLine: `${locationLabel} · ${t(`moon.phases.${view.phaseKey}`)} · ${(view.illumination * 100).toFixed(0)}%`,
+        watermark: t('share.watermark'),
+      })
       await shareOrDownloadImage(png, `lunaria-${dateLabel.replace(/[^\d]/g, '')}.png`)
     } finally {
       setBusy(false)
@@ -74,13 +82,21 @@ export default function ShareDialog({
               {t('app.title')}
             </div>
 
-            <div className="relative my-2 h-[150px] w-[150px] overflow-hidden rounded-full">
+            <div
+              className="relative overflow-hidden rounded-full"
+              style={{
+                width: SHARE_CARD.moonSize,
+                height: SHARE_CARD.moonSize,
+                marginTop: SHARE_CARD.moonMarginY,
+                marginBottom: SHARE_CARD.moonMarginY,
+              }}
+            >
               {moonImg ? (
                 <img
                   src={moonImg}
                   alt="moon"
                   className="h-full w-full object-cover"
-                  style={{ transform: 'scale(1.35)' }}
+                  style={{ transform: `scale(${SHARE_CARD.moonZoom})` }}
                 />
               ) : (
                 <div className="h-full w-full animate-pulseSoft rounded-full bg-white/5" />

@@ -1,12 +1,10 @@
-import { toPng } from 'html-to-image'
+import { renderShareCardToPng, type ShareCardContent } from './renderShareCard'
 
-/** Render a DOM node to a high-resolution PNG data URL. */
-export async function nodeToPng(node: HTMLElement): Promise<string> {
-  return toPng(node, {
-    pixelRatio: 2,
-    cacheBust: true,
-    backgroundColor: '#04060a',
-  })
+export type { ShareCardContent }
+
+/** Render the share card to a high-resolution PNG data URL. */
+export async function composeShareCard(content: ShareCardContent): Promise<string> {
+  return renderShareCardToPng(content)
 }
 
 /** Whether the browser can share image files (iOS Safari, Android Chrome, etc.). */

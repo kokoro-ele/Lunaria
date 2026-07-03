@@ -5,7 +5,6 @@ import { computeMoonView } from './lib/astronomy'
 import { localWallTimeToUtc, timezoneFor, offsetLabel } from './lib/timezone'
 import MoonScene from './components/MoonScene'
 import ControlsPanel from './components/ControlsPanel'
-import ControlsDrawer from './components/ControlsDrawer'
 import MoonReadout from './components/MoonReadout'
 import ViewFollowToggle from './components/ViewFollowToggle'
 import ShareDialog from './components/ShareDialog'
@@ -32,7 +31,6 @@ export default function App() {
     setTiltCorrection,
   } = useStore()
   const [shareOpen, setShareOpen] = useState(false)
-  const [drawerOpen, setDrawerOpen] = useState(false)
   const [sceneReady, setSceneReady] = useState(false)
   const [loaderDone, setLoaderDone] = useState(false)
 
@@ -127,24 +125,13 @@ export default function App() {
       )}
 
       <header className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between p-3 pt-[max(0.75rem,env(safe-area-inset-top))] md:p-7">
-        <div className="pointer-events-auto flex min-w-0 items-center gap-2">
-          <button
-            onClick={() => setDrawerOpen(true)}
-            className="btn-line flex h-9 w-9 items-center justify-center p-0 md:hidden"
-            aria-label={t('controls.openDrawer')}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M2 4h12M2 8h12M2 12h12" />
-            </svg>
-          </button>
-          <div className="min-w-0">
-            <h1 className="truncate text-base font-light tracking-[0.28em] text-white/90 md:text-lg md:tracking-[0.32em]">
-              {t('app.title').toUpperCase()}
-            </h1>
-            <p className="mt-0.5 hidden text-[11px] font-light tracking-wide text-white/40 md:block">
-              {t('app.tagline')}
-            </p>
-          </div>
+        <div className="pointer-events-auto min-w-0">
+          <h1 className="truncate text-base font-light tracking-[0.28em] text-white/90 md:text-lg md:tracking-[0.32em]">
+            {t('app.title').toUpperCase()}
+          </h1>
+          <p className="mt-0.5 hidden text-[11px] font-light tracking-wide text-white/40 md:block">
+            {t('app.tagline')}
+          </p>
         </div>
         <div className="pointer-events-auto flex shrink-0 items-center gap-2 md:gap-3">
           <button
@@ -158,8 +145,26 @@ export default function App() {
         </div>
       </header>
 
-      {/* View-follow toggle — moon viewport, bottom center */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-8">
+      {/* Mobile: bottom corners — controls + view follow (left), lunar data (right) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-2 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
+        <div className="pointer-events-auto flex min-w-0 max-w-[calc(50%-0.25rem)] flex-col gap-2">
+          <div className="max-h-[min(52dvh,calc(100dvh-11rem))] overflow-y-auto overscroll-contain">
+            <ControlsPanel {...panelProps} expandUp />
+          </div>
+          <ViewFollowToggle
+            active={tiltCorrection}
+            onToggle={() => setTiltCorrection(!tiltCorrection)}
+          />
+        </div>
+        <div className="pointer-events-auto min-w-0 max-w-[calc(50%-0.25rem)]">
+          <div className="max-h-[min(52dvh,calc(100dvh-11rem))] overflow-y-auto overscroll-contain">
+            <MoonReadout view={view} expandUp />
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: view-follow toggle — moon viewport, bottom center */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-8 z-20 hidden justify-center px-4 pb-[env(safe-area-inset-bottom)] md:flex">
         <div className="pointer-events-auto">
           <ViewFollowToggle
             active={tiltCorrection}
@@ -175,14 +180,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Mobile: side drawer */}
-      <ControlsDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        panelProps={panelProps}
-      />
-
-      <div className="pointer-events-none absolute bottom-5 right-3 z-20 md:right-5">
+      <div className="pointer-events-none absolute bottom-5 right-5 z-20 hidden md:block">
         <div className="pointer-events-auto">
           <MoonReadout view={view} />
         </div>

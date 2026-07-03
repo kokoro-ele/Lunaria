@@ -11,6 +11,8 @@ interface ControlsPanelProps {
   locationSelected: boolean
   /** Render inside mobile drawer without outer chrome */
   embedded?: boolean
+  /** Anchor at screen bottom — content expands upward */
+  expandUp?: boolean
   onDate: (v: string) => void
   onTime: (v: string) => void
   onPick: (lat: number, lon: number) => void
@@ -32,6 +34,7 @@ export default function ControlsPanel({
   tzLabel,
   locationSelected,
   embedded = false,
+  expandUp = false,
   onDate,
   onTime,
   onPick,
@@ -42,7 +45,15 @@ export default function ControlsPanel({
   const langTag = LANG_TAG[i18n.resolvedLanguage === 'zh' ? 'zh' : 'en']
 
   const body = (
-    <div className={embedded ? 'px-4 pb-5 pt-4' : 'border-t border-space-lineSoft px-5 pb-5 pt-4'}>
+    <div
+      className={
+        embedded
+          ? 'px-4 pb-5 pt-4'
+          : expandUp
+            ? 'border-b border-space-lineSoft px-3 pb-4 pt-3'
+            : 'border-t border-space-lineSoft px-5 pb-5 pt-4'
+      }
+    >
       <div className="flex items-end justify-between gap-3">
         <div className="flex-1">
           <div className="label mb-1.5">{t('controls.date')}</div>
@@ -78,7 +89,7 @@ export default function ControlsPanel({
           )}
         </div>
         <div
-          className={`relative h-[220px] w-full touch-none overflow-hidden border bg-black/30 ${
+          className={`relative ${expandUp ? 'h-[160px]' : 'h-[220px]'} w-full touch-none overflow-hidden border bg-black/30 ${
             locationSelected
               ? 'border-space-line'
               : 'border-space-glow/70 shadow-[0_0_24px_-6px_rgba(180,205,255,0.5)]'
@@ -115,10 +126,18 @@ export default function ControlsPanel({
   }
 
   return (
-    <div className="panel w-[300px] max-w-[calc(100vw-2.5rem)] animate-fadeIn">
+    <div
+      className={`panel animate-fadeIn ${
+        expandUp
+          ? 'flex w-full flex-col-reverse'
+          : 'w-[300px] max-w-[calc(100vw-2.5rem)]'
+      }`}
+    >
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className="flex w-full items-center justify-between px-5 py-3.5 text-white/55 transition-colors hover:text-white/85"
+        className={`flex w-full items-center justify-between text-white/55 transition-colors hover:text-white/85 ${
+          expandUp ? 'px-3 py-2.5' : 'px-5 py-3.5'
+        }`}
         aria-label={collapsed ? t('controls.expand') : t('controls.collapse')}
       >
         <span className="label !text-white/55">{t('controls.panelTitle')}</span>
@@ -126,7 +145,15 @@ export default function ControlsPanel({
           width="14"
           height="14"
           viewBox="0 0 14 14"
-          className={`transition-transform duration-300 ${collapsed ? '' : 'rotate-180'}`}
+          className={`shrink-0 transition-transform duration-300 ${
+            expandUp
+              ? collapsed
+                ? 'rotate-180'
+                : ''
+              : collapsed
+                ? ''
+                : 'rotate-180'
+          }`}
           fill="none"
           stroke="currentColor"
           strokeWidth="1.2"

@@ -2,7 +2,13 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { MoonView } from '../lib/astronomy'
 
-export default function MoonReadout({ view }: { view: MoonView }) {
+export default function MoonReadout({
+  view,
+  expandUp = false,
+}: {
+  view: MoonView
+  expandUp?: boolean
+}) {
   const { t } = useTranslation()
   const [collapsed, setCollapsed] = useState(false)
 
@@ -20,18 +26,32 @@ export default function MoonReadout({ view }: { view: MoonView }) {
   ]
 
   return (
-    <div className="panel w-[200px] max-w-[42vw] animate-fadeIn md:w-[230px] md:max-w-none">
+    <div
+      className={`panel animate-fadeIn ${
+        expandUp ? 'flex w-full flex-col-reverse' : 'w-[200px] max-w-[42vw] md:w-[230px] md:max-w-none'
+      }`}
+    >
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className="flex w-full items-center justify-between px-4 py-3 text-white/55 transition-colors hover:text-white/85 md:px-5 md:py-3.5"
+        className={`flex w-full items-center justify-between text-white/55 transition-colors hover:text-white/85 ${
+          expandUp ? 'px-3 py-2.5' : 'px-4 py-3 md:px-5 md:py-3.5'
+        }`}
         aria-label={collapsed ? t('controls.expand') : t('controls.collapse')}
       >
-        <span className="label !text-white/55">{t('moon.panelTitle')}</span>
+        <span className="label !truncate !text-white/55">{t('moon.panelTitle')}</span>
         <svg
           width="14"
           height="14"
           viewBox="0 0 14 14"
-          className={`transition-transform duration-300 ${collapsed ? '' : 'rotate-180'}`}
+          className={`shrink-0 transition-transform duration-300 ${
+            expandUp
+              ? collapsed
+                ? 'rotate-180'
+                : ''
+              : collapsed
+                ? ''
+                : 'rotate-180'
+          }`}
           fill="none"
           stroke="currentColor"
           strokeWidth="1.2"
@@ -41,7 +61,11 @@ export default function MoonReadout({ view }: { view: MoonView }) {
       </button>
 
       {!collapsed && (
-        <div className="space-y-2.5 border-t border-space-lineSoft px-4 pb-4 pt-3 md:space-y-3.5 md:px-5 md:pb-5 md:pt-4">
+        <div
+          className={`space-y-2.5 px-4 pb-4 pt-3 md:space-y-3.5 md:px-5 md:pb-5 md:pt-4 ${
+            expandUp ? 'border-b border-space-lineSoft' : 'border-t border-space-lineSoft'
+          }`}
+        >
           {rows.map((r) => (
             <div key={r.label}>
               <div className="label mb-0.5 md:mb-1">{r.label}</div>

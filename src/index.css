@@ -82,3 +82,48 @@ canvas {
   touch-action: none;
   display: block;
 }
+
+/* Loading wireframe sphere */
+.loader-sphere {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  transform-style: preserve-3d;
+  animation: loaderSpin 6s linear infinite;
+}
+
+.loader-sphere__ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(188, 210, 255, 0.55);
+  border-radius: 50%;
+}
+
+.loader-sphere__ring--a {
+  transform: rotateY(0deg);
+}
+
+.loader-sphere__ring--b {
+  transform: rotateY(60deg);
+}
+
+.loader-sphere__ring--c {
+  transform: rotateY(120deg);
+}
+
+.loader-sphere__core {
+  position: absolute;
+  inset: 28%;
+  border: 1px solid rgba(188, 210, 255, 0.35);
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(140, 175, 255, 0.25);
+}
+
+@keyframes loaderSpin {
+  from {
+    transform: rotateX(18deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(18deg) rotateY(360deg);
+  }
+}

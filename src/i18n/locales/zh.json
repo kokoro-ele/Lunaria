@@ -2,7 +2,9 @@
   "app": {
     "title": "Lunaria",
     "tagline": "那一刻的月亮，分毫不差。",
-    "github": "在 GitHub 查看源码"
+    "github": "在 GitHub 查看源码",
+    "loading": "正在载入月亮",
+    "loadingReady": "即将呈现"
   },
   "controls": {
     "date": "日期",
@@ -17,7 +19,11 @@
     "tiltTooltip": "月亮始终以同一面朝向地球，所以表面几乎不变。但你在何地、何时仰望，会改变它在夜空中倾斜的角度。开启后，月亮会按你所选地点与时刻实际看到的角度呈现。关闭后可自由旋转月球。",
     "panelTitle": "控制台",
     "collapse": "收起",
-    "expand": "展开"
+    "expand": "展开",
+    "tabTime": "时间",
+    "tabPlace": "地点",
+    "tabOptions": "选项",
+    "pickHint": "拖动旋转 · 点击选点"
   },
   "moon": {
     "phase": "月相",

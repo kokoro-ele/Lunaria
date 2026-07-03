@@ -2,7 +2,9 @@
   "app": {
     "title": "Lunaria",
     "tagline": "The moon, exactly as it was.",
-    "github": "View source on GitHub"
+    "github": "View source on GitHub",
+    "loading": "Loading the Moon",
+    "loadingReady": "Almost there"
   },
   "controls": {
     "date": "Date",
@@ -17,7 +19,11 @@
     "tiltTooltip": "The Moon always turns the same face to Earth, so its surface barely changes. But where and when you look changes how it tilts in the sky. When on, the Moon is shown at the angle you'd actually see from the chosen place and time. Turn it off to freely rotate the Moon.",
     "panelTitle": "Controls",
     "collapse": "Collapse",
-    "expand": "Expand"
+    "expand": "Expand",
+    "tabTime": "When",
+    "tabPlace": "Where",
+    "tabOptions": "Options",
+    "pickHint": "Drag to spin · Tap to pick"
   },
   "moon": {
     "phase": "Phase",

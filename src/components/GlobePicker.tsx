@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Canvas, type ThreeEvent, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
@@ -33,7 +33,6 @@ function buildCoastlines(): Float32Array {
 function buildGraticule(): Float32Array {
   const verts: number[] = []
   const step = 4
-  // Meridians every 30°
   for (let lon = -180; lon < 180; lon += 30) {
     for (let lat = -90; lat < 90; lat += step) {
       const a = latLonToVec3(lat, lon, R)
@@ -41,7 +40,6 @@ function buildGraticule(): Float32Array {
       verts.push(a.x, a.y, a.z, b.x, b.y, b.z)
     }
   }
-  // Parallels every 30°
   for (let lat = -60; lat <= 60; lat += 30) {
     for (let lon = -180; lon < 180; lon += step) {
       const a = latLonToVec3(lat, lon, R)
@@ -69,11 +67,11 @@ function Marker({ lat, lon }: { lat: number; lon: number }) {
   return (
     <group position={pos} quaternion={quat}>
       <mesh>
-        <sphereGeometry args={[0.018, 16, 16]} />
+        <sphereGeometry args={[0.022, 16, 16]} />
         <meshBasicMaterial color="#bcd2ff" />
       </mesh>
       <mesh ref={ringRef}>
-        <ringGeometry args={[0.03, 0.038, 32]} />
+        <ringGeometry args={[0.035, 0.044, 32]} />
         <meshBasicMaterial color="#bcd2ff" transparent opacity={0.7} side={THREE.DoubleSide} />
       </mesh>
     </group>
@@ -84,22 +82,25 @@ function GlobeMesh({
   lat,
   lon,
   onPick,
+  autoSpin,
 }: {
   lat: number
   lon: number
   onPick: (lat: number, lon: number) => void
+  autoSpin: boolean
 }) {
   const coast = useMemo(buildCoastlines, [])
   const grat = useMemo(buildGraticule, [])
   const groupRef = useRef<THREE.Group>(null)
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.03
+    if (groupRef.current && autoSpin) {
+      groupRef.current.rotation.y += delta * 0.025
+    }
   })
 
   const handlePointer = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
-    // Undo the group's auto-rotation so the picked point maps to true lon/lat.
     const local = e.point.clone()
     if (groupRef.current) {
       groupRef.current.worldToLocal(local)
@@ -110,10 +111,9 @@ function GlobeMesh({
 
   return (
     <group ref={groupRef}>
-      {/* Invisible solid sphere used for picking */}
       <mesh onPointerDown={handlePointer}>
-        <sphereGeometry args={[R, 48, 48]} />
-        <meshBasicMaterial color="#0a0f1a" transparent opacity={0.85} />
+        <sphereGeometry args={[R, 64, 64]} />
+        <meshBasicMaterial color="#0a0f1a" transparent opacity={0.88} />
       </mesh>
       <lineSegments>
         <bufferGeometry>
@@ -136,23 +136,41 @@ interface GlobePickerProps {
   lat: number
   lon: number
   onPick: (lat: number, lon: number) => void
+  onInteract?: () => void
 }
 
-export default function GlobePicker({ lat, lon, onPick }: GlobePickerProps) {
+export default function GlobePicker({ lat, lon, onPick, onInteract }: GlobePickerProps) {
+  const [autoSpin, setAutoSpin] = useState(true)
+  const idleTimer = useRef<number | null>(null)
+
+  const pauseSpin = () => {
+    setAutoSpin(false)
+    onInteract?.()
+    if (idleTimer.current) window.clearTimeout(idleTimer.current)
+    idleTimer.current = window.setTimeout(() => setAutoSpin(true), 2800)
+  }
+
+  const handlePick = (la: number, lo: number) => {
+    pauseSpin()
+    onPick(la, lo)
+  }
+
   return (
     <Canvas
-      camera={{ position: [0, 0.6, 2.6], fov: 38 }}
+      camera={{ position: [0, 0.5, 2.5], fov: 40 }}
       gl={{ antialias: true, alpha: true }}
       dpr={[1, 2]}
+      style={{ touchAction: 'none' }}
     >
       <ambientLight intensity={1} />
-      <GlobeMesh lat={lat} lon={lon} onPick={onPick} />
+      <GlobeMesh lat={lat} lon={lon} onPick={handlePick} autoSpin={autoSpin} />
       <OrbitControls
         enablePan={false}
         enableZoom={false}
-        rotateSpeed={0.5}
+        rotateSpeed={0.65}
         enableDamping
-        dampingFactor={0.1}
+        dampingFactor={0.12}
+        onStart={pauseSpin}
       />
     </Canvas>
   )

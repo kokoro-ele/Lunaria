@@ -1,14 +1,17 @@
 import { Suspense, useEffect } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Stars, OrbitControls } from '@react-three/drei'
+import { Stars, OrbitControls, useTexture } from '@react-three/drei'
 import Moon from './Moon'
 import { setMoonCanvas } from '../lib/capture'
 import type { MoonView } from '../lib/astronomy'
 import { useIsMobile } from '../hooks/useIsMobile'
 
+const MOON_TEXTURE = `${import.meta.env.BASE_URL}textures/moon_color_8k.jpg`
+
 interface MoonSceneProps {
   view: MoonView
   tiltCorrection: boolean
+  onReady?: () => void
 }
 
 function LockView({ locked }: { locked: boolean }) {
@@ -19,8 +22,12 @@ function LockView({ locked }: { locked: boolean }) {
   return null
 }
 
-export default function MoonScene({ view, tiltCorrection }: MoonSceneProps) {
+export default function MoonScene({ view, tiltCorrection, onReady }: MoonSceneProps) {
   const isMobile = useIsMobile()
+
+  useEffect(() => {
+    useTexture.preload(MOON_TEXTURE)
+  }, [])
 
   return (
     <Canvas
@@ -48,7 +55,7 @@ export default function MoonScene({ view, tiltCorrection }: MoonSceneProps) {
           fade
           speed={0.4}
         />
-        <Moon view={view} tiltCorrection={tiltCorrection} />
+        <Moon view={view} tiltCorrection={tiltCorrection} onReady={onReady} />
       </Suspense>
       <LockView locked={tiltCorrection} />
       <OrbitControls

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import type { MoonView } from '../lib/astronomy'
@@ -10,18 +10,20 @@ const MOON_TEXTURE = `${import.meta.env.BASE_URL}textures/moon_color_8k.jpg`
 interface MoonProps {
   view: MoonView
   tiltCorrection: boolean
+  onReady?: () => void
 }
 
-export default function Moon({ view, tiltCorrection }: MoonProps) {
+export default function Moon({ view, tiltCorrection, onReady }: MoonProps) {
   const isMobile = useIsMobile()
   const colorMap = useTexture(MOON_TEXTURE)
   const segments = isMobile ? 128 : 256
 
-  useMemo(() => {
+  useEffect(() => {
     colorMap.colorSpace = THREE.SRGBColorSpace
     colorMap.anisotropy = isMobile ? 4 : 8
     colorMap.needsUpdate = true
-  }, [colorMap, isMobile])
+    onReady?.()
+  }, [colorMap, isMobile, onReady])
 
   const sun = view.sunDir
   const sunPos = useMemo(

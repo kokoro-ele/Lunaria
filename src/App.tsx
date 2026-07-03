@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from './store'
 import { computeMoonView } from './lib/astronomy'
@@ -9,6 +9,7 @@ import MoonReadout from './components/MoonReadout'
 import ShareDialog from './components/ShareDialog'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import GitHubLink from './components/GitHubLink'
+import LoadingScreen from './components/LoadingScreen'
 
 function pad(n: number) {
   return String(n).padStart(2, '0')
@@ -29,6 +30,10 @@ export default function App() {
     setTiltCorrection,
   } = useStore()
   const [shareOpen, setShareOpen] = useState(false)
+  const [sceneReady, setSceneReady] = useState(false)
+  const [loaderDone, setLoaderDone] = useState(false)
+
+  const handleSceneReady = useCallback(() => setSceneReady(true), [])
 
   const uiLang = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US'
 
@@ -95,9 +100,8 @@ export default function App() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-space-black md:relative md:block md:h-full">
-      {/* Moon viewport */}
       <div className="relative min-h-0 flex-1 md:absolute md:inset-0">
-        <MoonScene view={view} tiltCorrection={tiltCorrection} />
+        <MoonScene view={view} tiltCorrection={tiltCorrection} onReady={handleSceneReady} />
 
         <div
           className="pointer-events-none absolute inset-0"
@@ -107,17 +111,21 @@ export default function App() {
           }}
         />
 
+        {/* Desktop-only location hint (near top, away from globe) */}
         {!locationSelected && (
-          <div className="pointer-events-none absolute left-1/2 top-[3.75rem] z-10 w-[92%] max-w-md -translate-x-1/2 animate-fadeIn px-2 md:top-[4.5rem] md:w-auto md:px-4">
-            <div className="panel flex items-center justify-center gap-2 px-3 py-2 text-center text-[10px] font-mono uppercase leading-snug tracking-widest2 text-space-glow md:whitespace-nowrap md:px-4 md:text-[11px]">
-              <span className="h-1.5 w-1.5 shrink-0 animate-pulseSoft rounded-full bg-space-glow" />
+          <div className="pointer-events-none absolute left-1/2 top-[4.5rem] z-10 hidden -translate-x-1/2 animate-fadeIn md:block">
+            <div className="panel flex items-center gap-2 whitespace-nowrap px-4 py-2 text-[11px] font-mono uppercase tracking-widest2 text-space-glow">
+              <span className="h-1.5 w-1.5 animate-pulseSoft rounded-full bg-space-glow" />
               {t('controls.selectPrompt')}
             </div>
           </div>
         )}
       </div>
 
-      {/* Header */}
+      {!loaderDone && (
+        <LoadingScreen ready={sceneReady} onDone={() => setLoaderDone(true)} />
+      )}
+
       <header className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between p-3 pt-[max(0.75rem,env(safe-area-inset-top))] md:p-7">
         <div className="pointer-events-auto min-w-0">
           <h1 className="truncate text-base font-light tracking-[0.28em] text-white/90 md:text-lg md:tracking-[0.32em]">
@@ -139,7 +147,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Desktop side panels */}
       <div className="absolute bottom-5 left-5 top-24 hidden flex-col justify-end md:flex">
         <ControlsPanel {...panelProps} />
       </div>
@@ -148,10 +155,9 @@ export default function App() {
         <MoonReadout view={view} />
       </div>
 
-      {/* Mobile bottom dock */}
       <div className="relative z-20 shrink-0 md:hidden">
         <MoonReadout view={view} compact />
-        <ControlsPanel {...panelProps} defaultCollapsed docked />
+        <ControlsPanel {...panelProps} defaultCollapsed={locationSelected} docked />
       </div>
 
       <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 text-[9px] font-mono uppercase tracking-widest2 text-white/20 md:block">

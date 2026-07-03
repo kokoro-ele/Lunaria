@@ -99,8 +99,8 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-space-black md:relative md:block md:h-full">
-      <div className="relative min-h-0 flex-1 md:absolute md:inset-0">
+    <div className="relative h-[100dvh] w-full overflow-hidden bg-space-black">
+      <div className="absolute inset-0">
         <MoonScene view={view} tiltCorrection={tiltCorrection} onReady={handleSceneReady} />
 
         <div
@@ -111,7 +111,6 @@ export default function App() {
           }}
         />
 
-        {/* Desktop-only location hint (near top, away from globe) */}
         {!locationSelected && (
           <div className="pointer-events-none absolute left-1/2 top-[4.5rem] z-10 hidden -translate-x-1/2 animate-fadeIn md:block">
             <div className="panel flex items-center gap-2 whitespace-nowrap px-4 py-2 text-[11px] font-mono uppercase tracking-widest2 text-space-glow">
@@ -147,17 +146,17 @@ export default function App() {
         </div>
       </header>
 
-      <div className="absolute bottom-5 left-5 top-24 hidden flex-col justify-end md:flex">
-        <ControlsPanel {...panelProps} />
+      {/* Same overlay layout on mobile and desktop */}
+      <div className="pointer-events-none absolute bottom-5 left-3 top-[4.5rem] z-20 flex max-w-[calc(100%-1.5rem)] flex-col justify-end md:left-5 md:top-24">
+        <div className="pointer-events-auto max-h-full overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]">
+          <ControlsPanel {...panelProps} />
+        </div>
       </div>
 
-      <div className="absolute bottom-5 right-5 hidden md:block">
-        <MoonReadout view={view} />
-      </div>
-
-      <div className="relative z-20 shrink-0 md:hidden">
-        <MoonReadout view={view} compact />
-        <ControlsPanel {...panelProps} defaultCollapsed={locationSelected} docked />
+      <div className="pointer-events-none absolute bottom-5 right-3 z-20 md:right-5">
+        <div className="pointer-events-auto">
+          <MoonReadout view={view} />
+        </div>
       </div>
 
       <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 text-[9px] font-mono uppercase tracking-widest2 text-white/20 md:block">

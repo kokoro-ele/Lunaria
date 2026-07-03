@@ -1,12 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { MoonView } from '../lib/astronomy'
 
-interface MoonReadoutProps {
-  view: MoonView
-  compact?: boolean
-}
-
-export default function MoonReadout({ view, compact = false }: MoonReadoutProps) {
+export default function MoonReadout({ view }: { view: MoonView }) {
   const { t } = useTranslation()
 
   const rows = [
@@ -22,26 +17,13 @@ export default function MoonReadout({ view, compact = false }: MoonReadoutProps)
     },
   ]
 
-  if (compact) {
-    return (
-      <div className="grid grid-cols-2 gap-px border-b border-space-line bg-space-line md:hidden">
-        {rows.map((r) => (
-          <div key={r.label} className="bg-space-deep/95 px-3 py-2.5">
-            <div className="label mb-0.5 !text-[9px]">{r.label}</div>
-            <div className="truncate font-mono text-[11px] text-white/90">{r.value}</div>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   return (
-    <div className="panel w-[230px] max-w-[86vw] p-5 animate-fadeIn">
-      <div className="space-y-3.5">
+    <div className="panel w-[200px] max-w-[42vw] p-4 animate-fadeIn md:w-[230px] md:max-w-none md:p-5">
+      <div className="space-y-2.5 md:space-y-3.5">
         {rows.map((r) => (
           <div key={r.label}>
-            <div className="label mb-1">{r.label}</div>
-            <div className="font-mono text-sm text-white/90">{r.value}</div>
+            <div className="label mb-0.5 md:mb-1">{r.label}</div>
+            <div className="font-mono text-xs text-white/90 md:text-sm">{r.value}</div>
           </div>
         ))}
       </div>

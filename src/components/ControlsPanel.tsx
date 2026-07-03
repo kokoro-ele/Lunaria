@@ -8,14 +8,14 @@ interface ControlsPanelProps {
   lat: number
   lon: number
   tzLabel: string
-  hiRes: boolean
   tiltCorrection: boolean
   locationSelected: boolean
+  defaultCollapsed?: boolean
+  docked?: boolean
   onDate: (v: string) => void
   onTime: (v: string) => void
   onPick: (lat: number, lon: number) => void
   onNow: () => void
-  onHiRes: (v: boolean) => void
   onTiltCorrection: (v: boolean) => void
 }
 
@@ -42,26 +42,29 @@ export default function ControlsPanel({
   lat,
   lon,
   tzLabel,
-  hiRes,
   tiltCorrection,
   locationSelected,
+  defaultCollapsed = false,
+  docked = false,
   onDate,
   onTime,
   onPick,
   onNow,
-  onHiRes,
   onTiltCorrection,
 }: ControlsPanelProps) {
   const { t, i18n } = useTranslation()
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(defaultCollapsed)
   const langTag = LANG_TAG[i18n.resolvedLanguage === 'zh' ? 'zh' : 'en']
 
   return (
-    <div className="panel w-[300px] max-w-[86vw] animate-fadeIn">
-      {/* Header with collapse toggle */}
+    <div
+      className={`panel animate-fadeIn ${
+        docked ? 'w-full border-x-0 border-b-0 bg-space-deep/95' : 'w-[300px] max-w-[86vw]'
+      }`}
+    >
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className="flex w-full items-center justify-between px-5 py-3.5 text-white/55 transition-colors hover:text-white/85"
+        className="flex w-full items-center justify-between px-4 py-3 text-white/55 transition-colors hover:text-white/85 md:px-5 md:py-3.5"
         aria-label={collapsed ? t('controls.expand') : t('controls.collapse')}
       >
         <span className="label !text-white/55">{t('controls.panelTitle')}</span>
@@ -79,35 +82,35 @@ export default function ControlsPanel({
       </button>
 
       {!collapsed && (
-        <div className="border-t border-space-lineSoft px-5 pb-5 pt-4">
+        <div className="max-h-[52dvh] overflow-y-auto border-t border-space-lineSoft px-4 pb-4 pt-3 md:max-h-none md:px-5 md:pb-5 md:pt-4">
           <div className="flex items-end justify-between gap-3">
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <div className="label mb-1.5">{t('controls.date')}</div>
               <input
                 type="date"
                 lang={langTag}
                 value={date}
                 onChange={(e) => onDate(e.target.value)}
-                className="field w-full"
+                className="field w-full min-h-[44px]"
               />
             </div>
-            <div className="w-[96px]">
+            <div className="w-[96px] shrink-0">
               <div className="label mb-1.5">{t('controls.time')}</div>
               <input
                 type="time"
                 lang={langTag}
                 value={time}
                 onChange={(e) => onTime(e.target.value)}
-                className="field w-full"
+                className="field w-full min-h-[44px]"
               />
             </div>
           </div>
 
-          <button onClick={onNow} className="btn-line mt-3 w-full">
+          <button onClick={onNow} className="btn-line mt-3 w-full min-h-[44px]">
             {t('controls.today')}
           </button>
 
-          <div className="mt-5">
+          <div className="mt-4 md:mt-5">
             <div className="label mb-2 flex items-center gap-1.5">
               {t('controls.location')}
               {!locationSelected && (
@@ -115,7 +118,7 @@ export default function ControlsPanel({
               )}
             </div>
             <div
-              className={`relative aspect-square w-full overflow-hidden border bg-black/30 transition-colors ${
+              className={`relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden border bg-black/30 transition-colors md:max-w-none ${
                 locationSelected
                   ? 'border-space-line'
                   : 'border-space-glow/70 shadow-[0_0_24px_-6px_rgba(180,205,255,0.5)]'
@@ -123,7 +126,7 @@ export default function ControlsPanel({
             >
               <GlobePicker lat={lat} lon={lon} onPick={onPick} />
               <div
-                className={`pointer-events-none absolute bottom-2 left-2 right-2 text-center text-[10px] font-mono uppercase tracking-widest2 transition-colors ${
+                className={`pointer-events-none absolute bottom-2 left-2 right-2 text-center text-[9px] font-mono uppercase leading-tight tracking-widest2 transition-colors md:text-[10px] ${
                   locationSelected
                     ? 'text-white/30'
                     : 'animate-pulseSoft text-space-glow'
@@ -134,45 +137,36 @@ export default function ControlsPanel({
             </div>
           </div>
 
-          <div className="mt-4 space-y-2 font-mono text-xs text-white/55">
-            <div className="flex justify-between">
-              <span className="text-white/35">{t('controls.coordinates')}</span>
-              <span>
+          <div className="mt-4 space-y-2 font-mono text-[11px] text-white/55 md:text-xs">
+            <div className="flex justify-between gap-3">
+              <span className="shrink-0 text-white/35">{t('controls.coordinates')}</span>
+              <span className="text-right">
                 {fmtCoord(lat, 'N', 'S')}, {fmtCoord(lon, 'E', 'W')}
               </span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-white/35">{t('controls.timezone')}</span>
-              <span>{tzLabel}</span>
+            <div className="flex justify-between gap-3">
+              <span className="shrink-0 text-white/35">{t('controls.timezone')}</span>
+              <span className="text-right">{tzLabel}</span>
             </div>
           </div>
 
-          {/* Local viewing-angle correction + tooltip */}
           <div className="group relative mt-4">
             <button
               onClick={() => onTiltCorrection(!tiltCorrection)}
-              className="flex w-full items-center justify-between border border-space-line px-3 py-2 text-[11px] font-mono uppercase tracking-widest2 text-white/50 transition-colors hover:text-white/80"
+              className="flex min-h-[44px] w-full items-center justify-between border border-space-line px-3 py-2.5 text-[11px] font-mono uppercase tracking-widest2 text-white/50 transition-colors hover:text-white/80"
             >
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 text-left leading-tight">
                 {t('controls.tiltCorrection')}
-                <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-white/25 text-[8px] not-italic text-white/45">
+                <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border border-white/25 text-[8px] not-italic text-white/45">
                   i
                 </span>
               </span>
               <Dot on={tiltCorrection} />
             </button>
-            <div className="pointer-events-none absolute bottom-full left-0 right-0 mb-2 translate-y-1 border border-space-line bg-space-deep/95 p-3 text-[11px] font-light leading-relaxed text-white/70 opacity-0 backdrop-blur-md transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="pointer-events-none absolute bottom-full left-0 right-0 z-10 mb-2 hidden translate-y-1 border border-space-line bg-space-deep/95 p-3 text-[11px] font-light leading-relaxed text-white/70 opacity-0 backdrop-blur-md transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 md:block">
               {t('controls.tiltTooltip')}
             </div>
           </div>
-
-          <button
-            onClick={() => onHiRes(!hiRes)}
-            className="mt-3 flex w-full items-center justify-between border border-space-line px-3 py-2 text-[11px] font-mono uppercase tracking-widest2 text-white/50 transition-colors hover:text-white/80"
-          >
-            <span>{t('controls.hiRes')}</span>
-            <Dot on={hiRes} />
-          </button>
         </div>
       )}
     </div>

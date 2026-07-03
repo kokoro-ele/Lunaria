@@ -134,9 +134,6 @@ npm run preview
 4. **分享**  
    点击右上角「分享 / Share」，选择或编辑留言，下载 PNG 纪念卡片。
 
-5. **高解析度贴图**  
-   在控制面板底部开启「高解析度贴图」，加载 8K 月球纹理（默认 2K，加载更快）。
-
 ---
 
 ## 技术栈
@@ -160,7 +157,7 @@ npm run preview
 ```
 Lunaria/
 ├── public/
-│   ├── textures/          # 月球贴图 (2K / 8K)
+│   ├── textures/          # 月球贴图 (8K)
 │   └── moon.svg
 ├── docs/
 │   └── preview.png        # 预览图
@@ -202,7 +199,7 @@ Lunaria/
 
 ## 资源与致谢
 
-- 月球贴图：[Solar System Scope](https://www.solarsystemscope.com/textures/)（2K / 8K）
+- 月球贴图：[Solar System Scope](https://www.solarsystemscope.com/textures/)（8K）
 - 天文计算：[cosinekitty/astronomy-engine](https://github.com/cosinekitty/astronomy)
 - 海岸线数据：[world-atlas](https://github.com/topojson/world-atlas)
 
@@ -308,7 +305,6 @@ VITE_BASE=/Lunaria/ npm run build && npm run preview
 2. **Set date & time** — Or press **Now** to jump to the current moment. Times are interpreted as **local time at the selected place**.
 3. **View the Moon** — With **Local viewing angle** on (default), the Moon is locked to the physically correct tilt for your location. Turn it off to drag and freely orbit the Moon.
 4. **Share** — Click **Share**, edit your message, and download a PNG keepsake card.
-5. **High-res textures** — Toggle **High-resolution textures** in the panel to load 8K maps (2K by default for faster loading).
 
 ---
 

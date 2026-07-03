@@ -22,19 +22,16 @@ export default function App() {
     latitude,
     longitude,
     locationSelected,
-    hiRes,
     tiltCorrection,
     setDate,
     setTime,
     setLocation,
-    setHiRes,
     setTiltCorrection,
   } = useStore()
   const [shareOpen, setShareOpen] = useState(false)
 
   const uiLang = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US'
 
-  // Keep the document language in sync so native date/time pickers localise.
   useEffect(() => {
     document.documentElement.lang = uiLang
   }, [uiLang])
@@ -81,44 +78,60 @@ export default function App() {
     setTime(`${pad(now.getHours())}:${pad(now.getMinutes())}`)
   }
 
+  const panelProps = {
+    date,
+    time,
+    lat: latitude,
+    lon: longitude,
+    tzLabel,
+    tiltCorrection,
+    locationSelected,
+    onDate: setDate,
+    onTime: setTime,
+    onPick: setLocation,
+    onNow: handleNow,
+    onTiltCorrection: setTiltCorrection,
+  }
+
   return (
-    <div className="relative h-full w-full overflow-hidden bg-space-black">
-      {/* Moon scene fills the viewport */}
-      <div className="absolute inset-0">
-        <MoonScene view={view} hiRes={hiRes} tiltCorrection={tiltCorrection} />
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-space-black md:relative md:block md:h-full">
+      {/* Moon viewport */}
+      <div className="relative min-h-0 flex-1 md:absolute md:inset-0">
+        <MoonScene view={view} tiltCorrection={tiltCorrection} />
+
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(circle at 50% 42%, transparent 38%, rgba(0,0,0,0.55) 100%)',
+          }}
+        />
+
+        {!locationSelected && (
+          <div className="pointer-events-none absolute left-1/2 top-[3.75rem] z-10 w-[92%] max-w-md -translate-x-1/2 animate-fadeIn px-2 md:top-[4.5rem] md:w-auto md:px-4">
+            <div className="panel flex items-center justify-center gap-2 px-3 py-2 text-center text-[10px] font-mono uppercase leading-snug tracking-widest2 text-space-glow md:whitespace-nowrap md:px-4 md:text-[11px]">
+              <span className="h-1.5 w-1.5 shrink-0 animate-pulseSoft rounded-full bg-space-glow" />
+              {t('controls.selectPrompt')}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* subtle vignette */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(circle at 50% 45%, transparent 40%, rgba(0,0,0,0.55) 100%)',
-        }}
-      />
-
-      {/* Prompt to choose a location on first load */}
-      {!locationSelected && (
-        <div className="pointer-events-none absolute left-1/2 top-[4.5rem] z-10 -translate-x-1/2 animate-fadeIn px-4">
-          <div className="panel flex items-center gap-2 whitespace-nowrap px-4 py-2 text-[11px] font-mono uppercase tracking-widest2 text-space-glow">
-            <span className="h-1.5 w-1.5 animate-pulseSoft rounded-full bg-space-glow" />
-            {t('controls.selectPrompt')}
-          </div>
-        </div>
-      )}
-
-      {/* Top bar */}
-      <header className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between p-5 md:p-7">
-        <div className="pointer-events-auto">
-          <h1 className="text-lg font-light tracking-[0.32em] text-white/90">
+      {/* Header */}
+      <header className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between p-3 pt-[max(0.75rem,env(safe-area-inset-top))] md:p-7">
+        <div className="pointer-events-auto min-w-0">
+          <h1 className="truncate text-base font-light tracking-[0.28em] text-white/90 md:text-lg md:tracking-[0.32em]">
             {t('app.title').toUpperCase()}
           </h1>
-          <p className="mt-1 text-[11px] font-light tracking-wide text-white/40">
+          <p className="mt-0.5 hidden text-[11px] font-light tracking-wide text-white/40 md:block">
             {t('app.tagline')}
           </p>
         </div>
-        <div className="pointer-events-auto flex items-center gap-3">
-          <button onClick={() => setShareOpen(true)} className="btn-line">
+        <div className="pointer-events-auto flex shrink-0 items-center gap-2 md:gap-3">
+          <button
+            onClick={() => setShareOpen(true)}
+            className="btn-line min-h-[36px] px-3 py-1.5 text-[10px] md:px-4 md:py-2 md:text-xs"
+          >
             {t('share.button')}
           </button>
           <LanguageSwitcher />
@@ -126,53 +139,21 @@ export default function App() {
         </div>
       </header>
 
-      {/* Left controls */}
+      {/* Desktop side panels */}
       <div className="absolute bottom-5 left-5 top-24 hidden flex-col justify-end md:flex">
-        <ControlsPanel
-          date={date}
-          time={time}
-          lat={latitude}
-          lon={longitude}
-          tzLabel={tzLabel}
-          hiRes={hiRes}
-          tiltCorrection={tiltCorrection}
-          locationSelected={locationSelected}
-          onDate={setDate}
-          onTime={setTime}
-          onPick={setLocation}
-          onNow={handleNow}
-          onHiRes={setHiRes}
-          onTiltCorrection={setTiltCorrection}
-        />
+        <ControlsPanel {...panelProps} />
       </div>
 
-      {/* Right readout */}
       <div className="absolute bottom-5 right-5 hidden md:block">
         <MoonReadout view={view} />
       </div>
 
-      {/* Mobile: stacked panels */}
-      <div className="absolute inset-x-0 bottom-0 flex max-h-[62vh] flex-col gap-3 overflow-auto p-4 md:hidden">
-        <MoonReadout view={view} />
-        <ControlsPanel
-          date={date}
-          time={time}
-          lat={latitude}
-          lon={longitude}
-          tzLabel={tzLabel}
-          hiRes={hiRes}
-          tiltCorrection={tiltCorrection}
-          locationSelected={locationSelected}
-          onDate={setDate}
-          onTime={setTime}
-          onPick={setLocation}
-          onNow={handleNow}
-          onHiRes={setHiRes}
-          onTiltCorrection={setTiltCorrection}
-        />
+      {/* Mobile bottom dock */}
+      <div className="relative z-20 shrink-0 md:hidden">
+        <MoonReadout view={view} compact />
+        <ControlsPanel {...panelProps} defaultCollapsed docked />
       </div>
 
-      {/* Footer credit */}
       <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 text-[9px] font-mono uppercase tracking-widest2 text-white/20 md:block">
         {t('footer.credit')}
       </div>

@@ -51,11 +51,11 @@ export default function ShareDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 backdrop-blur-sm md:items-center md:p-4"
       onClick={onClose}
     >
       <div
-        className="panel flex max-h-[92vh] w-full max-w-[760px] flex-col gap-6 overflow-auto p-6 md:flex-row"
+        className="panel flex max-h-[96dvh] w-full max-w-[760px] flex-col gap-5 overflow-auto rounded-none border-x-0 border-b-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:flex-row md:gap-6 md:rounded-none md:border md:p-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Preview card */}

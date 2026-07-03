@@ -13,7 +13,6 @@
     "pickOnGlobe": "Click the globe to choose a place",
     "selectPrompt": "Spin the globe and pick your place",
     "today": "Now",
-    "hiRes": "High-resolution textures",
     "tiltCorrection": "Local viewing angle",
     "tiltTooltip": "The Moon always turns the same face to Earth, so its surface barely changes. But where and when you look changes how it tilts in the sky. When on, the Moon is shown at the angle you'd actually see from the chosen place and time. Turn it off to freely rotate the Moon.",
     "panelTitle": "Controls",

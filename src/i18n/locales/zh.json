@@ -48,6 +48,8 @@
     "messagePlaceholder": "写下想记住的话…",
     "presets": "候选留言",
     "download": "下载图片",
+    "save": "保存 / 分享",
+    "saveHint": "在分享菜单中选择「存储到照片」即可保存到相册",
     "rendering": "合成中…",
     "close": "关闭",
     "presetList": {

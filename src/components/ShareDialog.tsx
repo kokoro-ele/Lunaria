@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { snapshotMoon } from '../lib/capture'
-import { nodeToPng, downloadDataUrl } from '../lib/share'
+import { nodeToPng, shareOrDownloadImage, supportsImageShare } from '../lib/share'
 import type { MoonView } from '../lib/astronomy'
 
 const PRESETS = ['birth', 'metYou', 'yours', 'sameMoon', 'anniversary', 'firstDay']
@@ -25,7 +25,12 @@ export default function ShareDialog({
   const [message, setMessage] = useState('')
   const [moonImg, setMoonImg] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [canShare, setCanShare] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setCanShare(supportsImageShare())
+  }, [])
 
   useEffect(() => {
     if (open) {
@@ -38,12 +43,12 @@ export default function ShareDialog({
 
   if (!open) return null
 
-  const handleDownload = async () => {
+  const handleSave = async () => {
     if (!cardRef.current) return
     setBusy(true)
     try {
       const png = await nodeToPng(cardRef.current)
-      downloadDataUrl(png, `lunaria-${dateLabel.replace(/[^\d]/g, '')}.png`)
+      await shareOrDownloadImage(png, `lunaria-${dateLabel.replace(/[^\d]/g, '')}.png`)
     } finally {
       setBusy(false)
     }
@@ -145,12 +150,17 @@ export default function ShareDialog({
           </div>
 
           <button
-            onClick={handleDownload}
+            onClick={handleSave}
             disabled={busy}
             className="btn-line mt-auto w-full disabled:opacity-50"
           >
-            {busy ? t('share.rendering') : t('share.download')}
+            {busy ? t('share.rendering') : canShare ? t('share.save') : t('share.download')}
           </button>
+          {canShare && (
+            <p className="mt-2 text-center text-[10px] font-light leading-relaxed text-white/35">
+              {t('share.saveHint')}
+            </p>
+          )}
         </div>
       </div>
     </div>

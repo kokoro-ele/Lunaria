@@ -48,6 +48,8 @@
     "messagePlaceholder": "Write something to remember…",
     "presets": "Suggestions",
     "download": "Download image",
+    "save": "Save / Share",
+    "saveHint": "Choose “Save Image” in the share sheet to add it to Photos",
     "rendering": "Composing…",
     "close": "Close",
     "presetList": {

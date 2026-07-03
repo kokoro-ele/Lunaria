@@ -1,12 +1,11 @@
 import { Suspense, useEffect } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Stars, OrbitControls, useTexture } from '@react-three/drei'
+import { Stars, OrbitControls } from '@react-three/drei'
 import Moon from './Moon'
 import { setMoonCanvas } from '../lib/capture'
 import type { MoonView } from '../lib/astronomy'
+import { preloadMoonTexture } from '../lib/moonTexture'
 import { useIsMobile } from '../hooks/useIsMobile'
-
-const MOON_TEXTURE = `${import.meta.env.BASE_URL}textures/moon_color_8k.jpg`
 
 interface MoonSceneProps {
   view: MoonView
@@ -26,7 +25,7 @@ export default function MoonScene({ view, tiltCorrection, onReady }: MoonScenePr
   const isMobile = useIsMobile()
 
   useEffect(() => {
-    useTexture.preload(MOON_TEXTURE)
+    preloadMoonTexture()
   }, [])
 
   return (

@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from 'react'
-import { useTexture } from '@react-three/drei'
+import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { MoonView } from '../lib/astronomy'
+import { configureMoonTextureLoader, MOON_TEXTURE } from '../lib/moonTexture'
 import { useIsMobile } from '../hooks/useIsMobile'
 
 const DEG = Math.PI / 180
-const MOON_TEXTURE = `${import.meta.env.BASE_URL}textures/moon_color_8k.jpg`
 
 interface MoonProps {
   view: MoonView
@@ -15,7 +15,9 @@ interface MoonProps {
 
 export default function Moon({ view, tiltCorrection, onReady }: MoonProps) {
   const isMobile = useIsMobile()
-  const colorMap = useTexture(MOON_TEXTURE)
+  const colorMap = useLoader(THREE.TextureLoader, MOON_TEXTURE, (loader) => {
+    configureMoonTextureLoader(loader)
+  }) as THREE.Texture
   const segments = isMobile ? 128 : 256
 
   useEffect(() => {

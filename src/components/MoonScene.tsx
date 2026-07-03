@@ -31,7 +31,7 @@ export default function MoonScene({ view, tiltCorrection, onReady }: MoonScenePr
 
   return (
     <Canvas
-      camera={{ position: [0, 0, isMobile ? 5.8 : 5.4], fov: isMobile ? 34 : 32, near: 0.1, far: 100 }}
+      camera={{ position: [0, 0, isMobile ? 7.2 : 5.4], fov: isMobile ? 36 : 32, near: 0.1, far: 100 }}
       gl={{
         preserveDrawingBuffer: true,
         antialias: !isMobile,
@@ -63,7 +63,7 @@ export default function MoonScene({ view, tiltCorrection, onReady }: MoonScenePr
         enablePan={false}
         enableZoom
         enableRotate={!tiltCorrection}
-        minDistance={isMobile ? 3 : 2.6}
+        minDistance={isMobile ? 4.2 : 2.6}
         maxDistance={8}
         rotateSpeed={0.4}
         zoomSpeed={0.5}

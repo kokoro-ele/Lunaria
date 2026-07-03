@@ -1,5 +1,5 @@
-import { useMemo, useRef } from 'react'
-import { Canvas, type ThreeEvent, useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
+import { Canvas, type ThreeEvent, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { feature } from 'topojson-client'
@@ -7,6 +7,60 @@ import countriesTopo from 'world-atlas/countries-110m.json'
 import { latLonToVec3, vec3ToLatLon } from '../lib/geo'
 
 const R = 1
+const MIN_DISTANCE = 1.5
+const MAX_DISTANCE = 4.5
+
+/** Keep the drawing buffer matched to the container (incl. under CSS transform). */
+function CanvasFillParent() {
+  const { gl, camera, size, setSize } = useThree()
+
+  useEffect(() => {
+    const canvas = gl.domElement
+    const container = canvas.parentElement
+    if (!container) return
+
+    const sync = () => {
+      const rect = container.getBoundingClientRect()
+      const w = Math.round(rect.width)
+      const h = Math.round(rect.height)
+      if (w < 1 || h < 1) return
+      canvas.style.width = '100%'
+      canvas.style.height = '100%'
+      canvas.style.display = 'block'
+      setSize(w, h, false)
+      if (camera instanceof THREE.PerspectiveCamera) {
+        camera.aspect = w / h
+        camera.updateProjectionMatrix()
+      }
+    }
+
+    sync()
+    const ro = new ResizeObserver(sync)
+    ro.observe(container)
+    return () => ro.disconnect()
+  }, [gl, camera, setSize])
+
+  // ResizeObserver misses CSS transform scale changes — poll lightly.
+  useFrame(() => {
+    const container = gl.domElement.parentElement
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    const w = Math.round(rect.width)
+    const h = Math.round(rect.height)
+    if (w < 1 || h < 1) return
+    if (Math.abs(size.width - w) > 0.5 || Math.abs(size.height - h) > 0.5) {
+      gl.domElement.style.width = '100%'
+      gl.domElement.style.height = '100%'
+      setSize(w, h, false)
+      if (camera instanceof THREE.PerspectiveCamera) {
+        camera.aspect = w / h
+        camera.updateProjectionMatrix()
+      }
+    }
+  })
+
+  return null
+}
 
 function buildCoastlines(): Float32Array {
   const fc: any = feature(countriesTopo as any, (countriesTopo as any).objects.countries)
@@ -136,24 +190,35 @@ interface GlobePickerProps {
 
 export default function GlobePicker({ lat, lon, onPick }: GlobePickerProps) {
   return (
-    <Canvas
-      camera={{ position: [0, 0.6, 2.6], fov: 38 }}
-      gl={{ antialias: true, alpha: true }}
-      dpr={[1, 2]}
-      style={{ width: '100%', height: '100%', touchAction: 'none', display: 'block' }}
-      onCreated={({ gl }) => {
-        gl.domElement.style.touchAction = 'none'
-      }}
-    >
-      <ambientLight intensity={1} />
-      <GlobeMesh lat={lat} lon={lon} onPick={onPick} />
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        rotateSpeed={0.5}
-        enableDamping
-        dampingFactor={0.1}
-      />
-    </Canvas>
+    <div className="absolute inset-0">
+      <Canvas
+        camera={{ position: [0, 0, 2.65], fov: 38 }}
+        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]}
+        style={{ display: 'block', width: '100%', height: '100%', touchAction: 'none' }}
+        onCreated={({ gl }) => {
+          gl.domElement.style.touchAction = 'none'
+        }}
+      >
+        <CanvasFillParent />
+        <ambientLight intensity={1} />
+        <GlobeMesh lat={lat} lon={lon} onPick={onPick} />
+        <OrbitControls
+          makeDefault
+          enablePan={false}
+          enableZoom
+          minDistance={MIN_DISTANCE}
+          maxDistance={MAX_DISTANCE}
+          rotateSpeed={0.5}
+          zoomSpeed={0.6}
+          enableDamping
+          dampingFactor={0.1}
+          touches={{
+            ONE: THREE.TOUCH.ROTATE,
+            TWO: THREE.TOUCH.DOLLY_PAN,
+          }}
+        />
+      </Canvas>
+    </div>
   )
 }

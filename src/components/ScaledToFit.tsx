@@ -45,12 +45,12 @@ export default function ScaledToFit({
   return (
     <div
       ref={outerRef}
-      className="w-full overflow-hidden"
+      className="relative w-full"
       style={{ height: layout.height > 0 ? layout.height : undefined }}
     >
       <div
         ref={innerRef}
-        className={originClass}
+        className={`absolute bottom-0 left-0 ${originClass}`}
         style={{
           width: designWidth,
           transform: `scale(${layout.scale})`,

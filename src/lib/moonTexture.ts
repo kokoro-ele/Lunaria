@@ -16,7 +16,6 @@ export const BOOTSTRAP_TEXTURE_QUALITY: MoonTextureQuality = '2k'
 const PROD_TEXTURES: Record<MoonTextureQuality, string> = {
   '2k': 'https://assets.timeblind.xyz/moon_color_2k.jpg',
   '4k': 'https://assets.timeblind.xyz/moon_color_4k.jpg',
-  /** Upload to CDN when ready; until then falls back to the bundled asset. */
   '8k': 'https://assets.timeblind.xyz/moon_color_8k.jpg',
 }
 

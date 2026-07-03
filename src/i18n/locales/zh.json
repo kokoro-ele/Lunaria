@@ -6,6 +6,16 @@
     "loading": "正在载入月亮",
     "loadingReady": "即将呈现"
   },
+  "texture": {
+    "label": "纹理清晰度",
+    "notReady": "高清纹理仍在下载，请稍候再试",
+    "downloading": "下载中",
+    "tiers": {
+      "2k": "2K",
+      "4k": "4K",
+      "8k": "8K"
+    }
+  },
   "controls": {
     "date": "日期",
     "time": "时间",

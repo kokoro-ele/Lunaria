@@ -6,6 +6,16 @@
     "loading": "Loading the Moon",
     "loadingReady": "Almost there"
   },
+  "texture": {
+    "label": "Texture quality",
+    "notReady": "High-res texture is still downloading — try again shortly",
+    "downloading": "Downloading",
+    "tiers": {
+      "2k": "2K",
+      "4k": "4K",
+      "8k": "8K"
+    }
+  },
   "controls": {
     "date": "Date",
     "time": "Time",

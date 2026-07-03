@@ -10,7 +10,9 @@ import ViewFollowToggle from './components/ViewFollowToggle'
 import ShareDialog from './components/ShareDialog'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import GitHubLink from './components/GitHubLink'
+import TextureQualitySelector from './components/TextureQualitySelector'
 import LoadingScreen from './components/LoadingScreen'
+import { loadMoonTexture, preloadOptionalMoonTextures } from './lib/moonTexture'
 
 function pad(n: number) {
   return String(n).padStart(2, '0')
@@ -34,7 +36,15 @@ export default function App() {
   const [sceneReady, setSceneReady] = useState(false)
   const [loaderDone, setLoaderDone] = useState(false)
 
-  const handleSceneReady = useCallback(() => setSceneReady(true), [])
+  const handleBootstrapReady = useCallback(() => setSceneReady(true), [])
+
+  useEffect(() => {
+    loadMoonTexture('2k').catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (loaderDone) preloadOptionalMoonTextures()
+  }, [loaderDone])
 
   const uiLang = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US'
 
@@ -100,7 +110,7 @@ export default function App() {
   return (
     <div className="relative h-[100dvh] w-full overflow-hidden bg-space-black">
       <div className="absolute inset-0">
-        <MoonScene view={view} tiltCorrection={tiltCorrection} onReady={handleSceneReady} />
+        <MoonScene view={view} tiltCorrection={tiltCorrection} onBootstrapReady={handleBootstrapReady} />
 
         <div
           className="pointer-events-none absolute inset-0"
@@ -140,6 +150,7 @@ export default function App() {
           >
             {t('share.button')}
           </button>
+          <TextureQualitySelector />
           <LanguageSwitcher />
           <GitHubLink />
         </div>

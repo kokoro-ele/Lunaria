@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import type { MoonTextureQuality } from './lib/moonTexture'
 
 export interface AppState {
   /** Local date at the selected location, format YYYY-MM-DD */
@@ -13,6 +14,9 @@ export interface AppState {
   message: string
   /** Tilt the Moon to the angle actually seen from the chosen place (parallactic) */
   tiltCorrection: boolean
+  /** Active moon surface texture resolution */
+  textureQuality: MoonTextureQuality
+  setTextureQuality: (quality: MoonTextureQuality) => void
 
   setDate: (date: string) => void
   setTime: (time: string) => void
@@ -35,6 +39,7 @@ export const useStore = create<AppState>((set) => ({
   locationSelected: false,
   message: '',
   tiltCorrection: true,
+  textureQuality: '2k',
 
   setDate: (date) => set({ date }),
   setTime: (time) => set({ time }),
@@ -42,4 +47,5 @@ export const useStore = create<AppState>((set) => ({
     set({ latitude, longitude, locationSelected: true }),
   setMessage: (message) => set({ message }),
   setTiltCorrection: (tiltCorrection) => set({ tiltCorrection }),
+  setTextureQuality: (textureQuality) => set({ textureQuality }),
 }))

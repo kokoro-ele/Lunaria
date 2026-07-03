@@ -1,8 +1,11 @@
-import { useEffect, useMemo } from 'react'
-import { useLoader } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { MoonView } from '../lib/astronomy'
-import { configureMoonTextureLoader, MOON_TEXTURE } from '../lib/moonTexture'
+import {
+  BOOTSTRAP_TEXTURE_QUALITY,
+  loadMoonTexture,
+} from '../lib/moonTexture'
+import { useStore } from '../store'
 import { useIsMobile } from '../hooks/useIsMobile'
 
 const DEG = Math.PI / 180
@@ -10,22 +13,36 @@ const DEG = Math.PI / 180
 interface MoonProps {
   view: MoonView
   tiltCorrection: boolean
-  onReady?: () => void
+  /** Fires once when the bootstrap (2K) texture is applied. */
+  onBootstrapReady?: () => void
 }
 
-export default function Moon({ view, tiltCorrection, onReady }: MoonProps) {
+export default function Moon({ view, tiltCorrection, onBootstrapReady }: MoonProps) {
   const isMobile = useIsMobile()
-  const colorMap = useLoader(THREE.TextureLoader, MOON_TEXTURE, (loader) => {
-    configureMoonTextureLoader(loader)
-  }) as THREE.Texture
+  const textureQuality = useStore((s) => s.textureQuality)
+  const [colorMap, setColorMap] = useState<THREE.Texture | null>(null)
+  const bootstrapped = useRef(false)
   const segments = isMobile ? 128 : 256
 
   useEffect(() => {
-    colorMap.colorSpace = THREE.SRGBColorSpace
-    colorMap.anisotropy = isMobile ? 4 : 8
-    colorMap.needsUpdate = true
-    onReady?.()
-  }, [colorMap, isMobile, onReady])
+    let alive = true
+
+    loadMoonTexture(textureQuality).then((tex) => {
+      if (!alive) return
+      tex.anisotropy = isMobile ? 4 : 8
+      tex.needsUpdate = true
+      setColorMap(tex)
+
+      if (textureQuality === BOOTSTRAP_TEXTURE_QUALITY && !bootstrapped.current) {
+        bootstrapped.current = true
+        onBootstrapReady?.()
+      }
+    })
+
+    return () => {
+      alive = false
+    }
+  }, [textureQuality, isMobile, onBootstrapReady])
 
   const sun = view.sunDir
   const sunPos = useMemo(
@@ -37,6 +54,8 @@ export default function Moon({ view, tiltCorrection, onReady }: MoonProps) {
     () => [view.libLat * DEG, -Math.PI / 2 - view.libLon * DEG, 0],
     [view.libLat, view.libLon],
   )
+
+  if (!colorMap) return null
 
   return (
     <group rotation={[0, 0, tiltCorrection ? view.axisTilt : 0]}>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import GlobePicker from './GlobePicker'
+import ScaledToFit from './ScaledToFit'
 
 interface ControlsPanelProps {
   date: string
@@ -50,22 +51,22 @@ export default function ControlsPanel({
         embedded
           ? 'px-4 pb-5 pt-4'
           : expandUp
-            ? 'border-b border-space-lineSoft px-3 pb-4 pt-3'
+            ? 'border-b border-space-lineSoft px-5 pb-5 pt-4'
             : 'border-t border-space-lineSoft px-5 pb-5 pt-4'
       }
     >
       <div className="flex items-end justify-between gap-3">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="label mb-1.5">{t('controls.date')}</div>
           <input
             type="date"
             lang={langTag}
             value={date}
             onChange={(e) => onDate(e.target.value)}
-            className="field w-full"
+            className="field w-full min-w-0"
           />
         </div>
-        <div className="w-[96px]">
+        <div className="w-[96px] shrink-0">
           <div className="label mb-1.5">{t('controls.time')}</div>
           <input
             type="time"
@@ -89,7 +90,7 @@ export default function ControlsPanel({
           )}
         </div>
         <div
-          className={`relative ${expandUp ? 'h-[160px]' : 'h-[220px]'} w-full touch-none overflow-hidden border bg-black/30 ${
+          className={`relative h-[220px] w-full touch-none overflow-hidden border bg-black/30 ${
             locationSelected
               ? 'border-space-line'
               : 'border-space-glow/70 shadow-[0_0_24px_-6px_rgba(180,205,255,0.5)]'
@@ -125,19 +126,15 @@ export default function ControlsPanel({
     return body
   }
 
-  return (
+  const panel = (
     <div
       className={`panel animate-fadeIn ${
-        expandUp
-          ? 'flex w-full flex-col-reverse'
-          : 'w-[300px] max-w-[calc(100vw-2.5rem)]'
+        expandUp ? 'flex w-[300px] flex-col-reverse' : 'w-[300px] max-w-[calc(100vw-2.5rem)]'
       }`}
     >
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className={`flex w-full items-center justify-between text-white/55 transition-colors hover:text-white/85 ${
-          expandUp ? 'px-3 py-2.5' : 'px-5 py-3.5'
-        }`}
+        className="flex w-full items-center justify-between px-5 py-3.5 text-white/55 transition-colors hover:text-white/85"
         aria-label={collapsed ? t('controls.expand') : t('controls.collapse')}
       >
         <span className="label !text-white/55">{t('controls.panelTitle')}</span>
@@ -165,4 +162,10 @@ export default function ControlsPanel({
       {!collapsed && body}
     </div>
   )
+
+  if (expandUp) {
+    return <ScaledToFit designWidth={300}>{panel}</ScaledToFit>
+  }
+
+  return panel
 }

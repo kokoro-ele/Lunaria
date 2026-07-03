@@ -148,9 +148,7 @@ export default function App() {
       {/* Mobile: bottom corners — controls + view follow (left), lunar data (right) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-2 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
         <div className="pointer-events-auto flex min-w-0 max-w-[calc(50%-0.25rem)] flex-col gap-2">
-          <div className="max-h-[min(52dvh,calc(100dvh-11rem))] overflow-y-auto overscroll-contain">
-            <ControlsPanel {...panelProps} expandUp />
-          </div>
+          <ControlsPanel {...panelProps} expandUp />
           <ViewFollowToggle
             active={tiltCorrection}
             onToggle={() => setTiltCorrection(!tiltCorrection)}

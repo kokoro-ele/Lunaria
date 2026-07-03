@@ -92,6 +92,7 @@ function GlobeMesh({
   const coast = useMemo(buildCoastlines, [])
   const grat = useMemo(buildGraticule, [])
   const groupRef = useRef<THREE.Group>(null)
+  const pointerStart = useRef<{ x: number; y: number } | null>(null)
 
   useFrame((_, delta) => {
     if (groupRef.current && autoSpin) {
@@ -99,9 +100,8 @@ function GlobeMesh({
     }
   })
 
-  const handlePointer = (e: ThreeEvent<PointerEvent>) => {
-    e.stopPropagation()
-    const local = e.point.clone()
+  const pickAt = (point: THREE.Vector3) => {
+    const local = point.clone()
     if (groupRef.current) {
       groupRef.current.worldToLocal(local)
     }
@@ -109,9 +109,28 @@ function GlobeMesh({
     onPick(la, lo)
   }
 
+  const handlePointerDown = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation()
+    pointerStart.current = { x: e.clientX, y: e.clientY }
+  }
+
+  const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation()
+    const start = pointerStart.current
+    pointerStart.current = null
+    if (!start) return
+
+    const dx = e.clientX - start.x
+    const dy = e.clientY - start.y
+    // Treat as tap only if finger/mouse barely moved (not a drag-to-rotate).
+    if (dx * dx + dy * dy > 324) return
+
+    pickAt(e.point)
+  }
+
   return (
     <group ref={groupRef}>
-      <mesh onPointerDown={handlePointer}>
+      <mesh onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>
         <sphereGeometry args={[R, 64, 64]} />
         <meshBasicMaterial color="#0a0f1a" transparent opacity={0.88} />
       </mesh>
@@ -136,16 +155,14 @@ interface GlobePickerProps {
   lat: number
   lon: number
   onPick: (lat: number, lon: number) => void
-  onInteract?: () => void
 }
 
-export default function GlobePicker({ lat, lon, onPick, onInteract }: GlobePickerProps) {
+export default function GlobePicker({ lat, lon, onPick }: GlobePickerProps) {
   const [autoSpin, setAutoSpin] = useState(true)
   const idleTimer = useRef<number | null>(null)
 
   const pauseSpin = () => {
     setAutoSpin(false)
-    onInteract?.()
     if (idleTimer.current) window.clearTimeout(idleTimer.current)
     idleTimer.current = window.setTimeout(() => setAutoSpin(true), 2800)
   }

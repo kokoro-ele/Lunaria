@@ -68,7 +68,6 @@ export default function ControlsPanel({
 
   const handlePick = (la: number, lo: number) => {
     onPick(la, lo)
-    if (docked) setTab('time')
   }
 
   const tabs: { id: Tab; label: string; alert?: boolean }[] = [
@@ -178,7 +177,7 @@ export default function ControlsPanel({
                   </div>
                 )}
                 <div
-                  className={`relative mx-auto aspect-square w-full overflow-hidden border bg-black/30 transition-colors ${
+                  className={`relative mx-auto aspect-square w-full touch-none overflow-hidden border bg-black/30 transition-colors ${
                     docked ? 'max-h-[240px] max-w-[240px]' : 'md:max-w-none'
                   } ${
                     locationSelected

@@ -8,13 +8,13 @@ interface ControlsPanelProps {
   lat: number
   lon: number
   tzLabel: string
-  tiltCorrection: boolean
   locationSelected: boolean
+  /** Render inside mobile drawer without outer chrome */
+  embedded?: boolean
   onDate: (v: string) => void
   onTime: (v: string) => void
   onPick: (lat: number, lon: number) => void
   onNow: () => void
-  onTiltCorrection: (v: boolean) => void
 }
 
 function fmtCoord(value: number, posSuffix: string, negSuffix: string) {
@@ -24,33 +24,95 @@ function fmtCoord(value: number, posSuffix: string, negSuffix: string) {
 
 const LANG_TAG: Record<string, string> = { zh: 'zh-CN', en: 'en-US' }
 
-function Dot({ on }: { on: boolean }) {
-  return (
-    <span
-      className={`h-2 w-2 rounded-full transition-colors ${
-        on ? 'bg-space-glow' : 'bg-white/15'
-      }`}
-    />
-  )
-}
-
 export default function ControlsPanel({
   date,
   time,
   lat,
   lon,
   tzLabel,
-  tiltCorrection,
   locationSelected,
+  embedded = false,
   onDate,
   onTime,
   onPick,
   onNow,
-  onTiltCorrection,
 }: ControlsPanelProps) {
   const { t, i18n } = useTranslation()
   const [collapsed, setCollapsed] = useState(false)
   const langTag = LANG_TAG[i18n.resolvedLanguage === 'zh' ? 'zh' : 'en']
+
+  const body = (
+    <div className={embedded ? 'px-4 pb-5 pt-4' : 'border-t border-space-lineSoft px-5 pb-5 pt-4'}>
+      <div className="flex items-end justify-between gap-3">
+        <div className="flex-1">
+          <div className="label mb-1.5">{t('controls.date')}</div>
+          <input
+            type="date"
+            lang={langTag}
+            value={date}
+            onChange={(e) => onDate(e.target.value)}
+            className="field w-full"
+          />
+        </div>
+        <div className="w-[96px]">
+          <div className="label mb-1.5">{t('controls.time')}</div>
+          <input
+            type="time"
+            lang={langTag}
+            value={time}
+            onChange={(e) => onTime(e.target.value)}
+            className="field w-full"
+          />
+        </div>
+      </div>
+
+      <button onClick={onNow} className="btn-line mt-3 w-full">
+        {t('controls.today')}
+      </button>
+
+      <div className="mt-5">
+        <div className="label mb-2 flex items-center gap-1.5">
+          {t('controls.location')}
+          {!locationSelected && (
+            <span className="h-1.5 w-1.5 animate-pulseSoft rounded-full bg-space-glow" />
+          )}
+        </div>
+        <div
+          className={`relative h-[220px] w-full touch-none overflow-hidden border bg-black/30 ${
+            locationSelected
+              ? 'border-space-line'
+              : 'border-space-glow/70 shadow-[0_0_24px_-6px_rgba(180,205,255,0.5)]'
+          }`}
+        >
+          <GlobePicker lat={lat} lon={lon} onPick={onPick} />
+          <div
+            className={`pointer-events-none absolute bottom-2 left-2 right-2 text-center text-[10px] font-mono uppercase tracking-widest2 ${
+              locationSelected ? 'text-white/30' : 'animate-pulseSoft text-space-glow'
+            }`}
+          >
+            {locationSelected ? t('controls.pickOnGlobe') : t('controls.selectPrompt')}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 space-y-2 font-mono text-xs text-white/55">
+        <div className="flex justify-between gap-3">
+          <span className="text-white/35">{t('controls.coordinates')}</span>
+          <span className="text-right">
+            {fmtCoord(lat, 'N', 'S')}, {fmtCoord(lon, 'E', 'W')}
+          </span>
+        </div>
+        <div className="flex justify-between gap-3">
+          <span className="text-white/35">{t('controls.timezone')}</span>
+          <span className="text-right">{tzLabel}</span>
+        </div>
+      </div>
+    </div>
+  )
+
+  if (embedded) {
+    return body
+  }
 
   return (
     <div className="panel w-[300px] max-w-[calc(100vw-2.5rem)] animate-fadeIn">
@@ -73,92 +135,7 @@ export default function ControlsPanel({
         </svg>
       </button>
 
-      {!collapsed && (
-        <div className="border-t border-space-lineSoft px-5 pb-5 pt-4">
-          <div className="flex items-end justify-between gap-3">
-            <div className="flex-1">
-              <div className="label mb-1.5">{t('controls.date')}</div>
-              <input
-                type="date"
-                lang={langTag}
-                value={date}
-                onChange={(e) => onDate(e.target.value)}
-                className="field w-full"
-              />
-            </div>
-            <div className="w-[96px]">
-              <div className="label mb-1.5">{t('controls.time')}</div>
-              <input
-                type="time"
-                lang={langTag}
-                value={time}
-                onChange={(e) => onTime(e.target.value)}
-                className="field w-full"
-              />
-            </div>
-          </div>
-
-          <button onClick={onNow} className="btn-line mt-3 w-full">
-            {t('controls.today')}
-          </button>
-
-          <div className="mt-5">
-            <div className="label mb-2 flex items-center gap-1.5">
-              {t('controls.location')}
-              {!locationSelected && (
-                <span className="h-1.5 w-1.5 animate-pulseSoft rounded-full bg-space-glow" />
-              )}
-            </div>
-            <div
-              className={`relative h-[220px] w-full touch-none overflow-hidden border bg-black/30 ${
-                locationSelected
-                  ? 'border-space-line'
-                  : 'border-space-glow/70 shadow-[0_0_24px_-6px_rgba(180,205,255,0.5)]'
-              }`}
-            >
-              <GlobePicker lat={lat} lon={lon} onPick={onPick} />
-              <div
-                className={`pointer-events-none absolute bottom-2 left-2 right-2 text-center text-[10px] font-mono uppercase tracking-widest2 ${
-                  locationSelected ? 'text-white/30' : 'animate-pulseSoft text-space-glow'
-                }`}
-              >
-                {locationSelected ? t('controls.pickOnGlobe') : t('controls.selectPrompt')}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 space-y-2 font-mono text-xs text-white/55">
-            <div className="flex justify-between gap-3">
-              <span className="text-white/35">{t('controls.coordinates')}</span>
-              <span className="text-right">
-                {fmtCoord(lat, 'N', 'S')}, {fmtCoord(lon, 'E', 'W')}
-              </span>
-            </div>
-            <div className="flex justify-between gap-3">
-              <span className="text-white/35">{t('controls.timezone')}</span>
-              <span className="text-right">{tzLabel}</span>
-            </div>
-          </div>
-
-          <div className="group relative mt-4">
-            <button
-              onClick={() => onTiltCorrection(!tiltCorrection)}
-              className="flex w-full items-center justify-between border border-space-line px-3 py-2 text-[11px] font-mono uppercase tracking-widest2 text-white/50 transition-colors hover:text-white/80"
-            >
-              <span className="flex items-center gap-1.5">
-                {t('controls.tiltCorrection')}
-                <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-white/25 text-[8px] not-italic text-white/45">
-                  i
-                </span>
-              </span>
-              <Dot on={tiltCorrection} />
-            </button>
-            <div className="pointer-events-none absolute bottom-full left-0 right-0 mb-2 hidden translate-y-1 border border-space-line bg-space-deep/95 p-3 text-[11px] font-light leading-relaxed text-white/70 opacity-0 backdrop-blur-md transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 md:block">
-              {t('controls.tiltTooltip')}
-            </div>
-          </div>
-        </div>
-      )}
+      {!collapsed && body}
     </div>
   )
 }

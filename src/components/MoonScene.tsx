@@ -4,6 +4,7 @@ import { Stars, OrbitControls } from '@react-three/drei'
 import Moon from './Moon'
 import { setMoonCanvas } from '../lib/capture'
 import type { MoonView } from '../lib/astronomy'
+import { MOON_CAMERA } from '../lib/moonCamera'
 import { useIsMobile } from '../hooks/useIsMobile'
 
 interface MoonSceneProps {
@@ -22,10 +23,17 @@ function LockView({ locked }: { locked: boolean }) {
 
 export default function MoonScene({ view, tiltCorrection, onBootstrapReady }: MoonSceneProps) {
   const isMobile = useIsMobile()
+  const cam = isMobile ? MOON_CAMERA.mobile : MOON_CAMERA.desktop
 
   return (
     <Canvas
-      camera={{ position: [0, 0, isMobile ? 7.2 : 5.4], fov: isMobile ? 36 : 32, near: 0.1, far: 100 }}
+      orthographic
+      camera={{
+        position: cam.position,
+        zoom: cam.zoom,
+        near: 0.1,
+        far: 100,
+      }}
       gl={{
         preserveDrawingBuffer: true,
         antialias: !isMobile,
@@ -57,8 +65,8 @@ export default function MoonScene({ view, tiltCorrection, onBootstrapReady }: Mo
         enablePan={false}
         enableZoom
         enableRotate={!tiltCorrection}
-        minDistance={isMobile ? 4.2 : 2.6}
-        maxDistance={8}
+        minZoom={MOON_CAMERA.zoom.min}
+        maxZoom={MOON_CAMERA.zoom.max}
         rotateSpeed={0.4}
         zoomSpeed={0.5}
         enableDamping

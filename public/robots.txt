@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lunaria.timeblind.xyz/sitemap.xml

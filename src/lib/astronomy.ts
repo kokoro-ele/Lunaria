@@ -36,7 +36,8 @@ export interface MoonView {
   /**
    * Rotation (radians) to apply about the view axis so the Moon's surface
    * features tilt as an observer at this location would actually see them
-   * (parallactic angle). 0 when the Moon is below the horizon reference.
+   * (parallactic angle). It is still calculated below the horizon so the
+   * orientation remains continuous around moonrise and moonset.
    */
   axisTilt: number
   /** Topocentric altitude of the Moon (degrees); negative = below horizon */

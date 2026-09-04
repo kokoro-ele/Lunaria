@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { snapshotMoon } from '../lib/capture'
 import { SHARE_CARD } from '../lib/shareCardLayout'
@@ -26,26 +26,78 @@ export default function ShareDialog({
   const [message, setMessage] = useState('')
   const [moonImg, setMoonImg] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [saveError, setSaveError] = useState(false)
   const [canShare, setCanShare] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
+  const titleId = useId()
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     setCanShare(supportsImageShare())
   }, [])
 
   useEffect(() => {
-    if (open) {
-      // Wait one frame so the latest WebGL frame is present in the buffer.
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setMoonImg(snapshotMoon()))
-      })
+    if (!open) return
+    // Wait one frame so the latest WebGL frame is present in the buffer.
+    let cleanupSecondFrame = () => {}
+    const firstFrame = requestAnimationFrame(() => {
+      const secondFrame = requestAnimationFrame(() => setMoonImg(snapshotMoon()))
+      cleanupSecondFrame = () => cancelAnimationFrame(secondFrame)
+    })
+    return () => {
+      cancelAnimationFrame(firstFrame)
+      cleanupSecondFrame()
     }
   }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    const previousOverflow = document.body.style.overflow
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+        return
+      }
+      if (event.key !== 'Tab' || !dialogRef.current) return
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), a[href]',
+        ),
+      ).filter((element) => element.tabIndex !== -1)
+      if (focusable.length === 0) {
+        event.preventDefault()
+        return
+      }
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', handleKeyDown)
+    closeButtonRef.current?.focus()
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', handleKeyDown)
+      previouslyFocused?.focus()
+    }
+  }, [open, onClose])
 
   if (!open) return null
 
   const handleSave = async () => {
     setBusy(true)
+    setSaveError(false)
     try {
       const moonDataUrl = snapshotMoon() ?? moonImg
       const png = await composeShareCard({
@@ -57,6 +109,8 @@ export default function ShareDialog({
         watermark: t('share.watermark'),
       })
       await shareOrDownloadImage(png, `lunaria-${dateLabel.replace(/[^\d]/g, '')}.png`)
+    } catch {
+      setSaveError(true)
     } finally {
       setBusy(false)
     }
@@ -68,13 +122,16 @@ export default function ShareDialog({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
         className="panel flex max-h-[96dvh] w-full max-w-[760px] flex-col gap-5 overflow-auto rounded-none border-x-0 border-b-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:flex-row md:gap-6 md:rounded-none md:border md:p-6"
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
       >
         {/* Preview card */}
         <div className="mx-auto w-[260px] shrink-0">
           <div
-            ref={cardRef}
             className="relative flex aspect-[3/4] w-full flex-col items-center justify-between overflow-hidden bg-space-black p-6"
             style={{ border: '1px solid rgba(255,255,255,0.12)' }}
           >
@@ -94,7 +151,7 @@ export default function ShareDialog({
               {moonImg ? (
                 <img
                   src={moonImg}
-                  alt="moon"
+                  alt={t('share.moonPreviewAlt')}
                   className="h-full w-full object-cover"
                   style={{ transform: `scale(${SHARE_CARD.moonZoom})` }}
                 />
@@ -126,10 +183,12 @@ export default function ShareDialog({
         {/* Controls */}
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm uppercase tracking-[0.2em] text-white/80">
+            <h2 id={titleId} className="text-sm uppercase tracking-[0.2em] text-white/80">
               {t('share.title')}
             </h2>
             <button
+              ref={closeButtonRef}
+              type="button"
               onClick={onClose}
               className="text-white/40 transition-colors hover:text-white"
               aria-label={t('share.close')}
@@ -166,12 +225,18 @@ export default function ShareDialog({
           </div>
 
           <button
+            type="button"
             onClick={handleSave}
             disabled={busy}
             className="btn-line mt-auto w-full disabled:opacity-50"
           >
             {busy ? t('share.rendering') : canShare ? t('share.save') : t('share.download')}
           </button>
+          {saveError && (
+            <p className="mt-2 text-center text-[10px] leading-relaxed text-red-300/80" role="alert">
+              {t('share.failed')}
+            </p>
+          )}
           {canShare && (
             <p className="mt-2 text-center text-[10px] font-light leading-relaxed text-white/35">
               {t('share.saveHint')}

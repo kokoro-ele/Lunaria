@@ -1,0 +1,227 @@
+:root {
+  color-scheme: dark;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #04060a;
+  color: #dce4f2;
+  font-synthesis: none;
+  line-height: 1.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 75% 5%, rgba(112, 141, 193, 0.12), transparent 32rem),
+    #04060a;
+}
+
+a {
+  color: #bdd0f4;
+  text-underline-offset: 0.22em;
+}
+
+a:hover {
+  color: #fff;
+}
+
+.site-header,
+main,
+footer {
+  width: min(100% - 2rem, 880px);
+  margin-inline: auto;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.brand,
+nav a,
+.eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem 1.25rem;
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.68rem;
+  text-decoration: none;
+}
+
+article {
+  padding-block: clamp(3.5rem, 10vw, 7rem);
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: rgba(188, 210, 255, 0.62);
+  font-size: 0.72rem;
+}
+
+h1,
+h2,
+h3 {
+  color: #f4f7fc;
+  font-weight: 300;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 {
+  max-width: 18ch;
+  margin: 0;
+  font-size: clamp(2.35rem, 7vw, 4.9rem);
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.65rem, 4vw, 2.4rem);
+}
+
+h3 {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+p,
+li,
+dd {
+  color: rgba(220, 228, 242, 0.72);
+}
+
+.lead {
+  max-width: 66ch;
+  margin-top: 2rem;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+}
+
+.callout {
+  margin-top: 2rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid rgba(188, 210, 255, 0.25);
+  background: rgba(188, 210, 255, 0.04);
+  color: rgba(235, 241, 252, 0.9);
+}
+
+section {
+  margin-top: clamp(4.5rem, 10vw, 7rem);
+  scroll-margin-top: 2rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.facts > div {
+  padding: 1.25rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+dt,
+summary,
+.steps strong {
+  color: rgba(244, 247, 252, 0.94);
+  font-weight: 400;
+}
+
+dd {
+  margin: 0.4rem 0 0;
+  font-size: 0.92rem;
+}
+
+.steps {
+  display: grid;
+  gap: 1rem;
+  padding-left: 1.4rem;
+}
+
+.steps li {
+  padding-left: 0.5rem;
+}
+
+.faq {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+details {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+summary {
+  cursor: pointer;
+  font-size: 1.02rem;
+}
+
+details p {
+  max-width: 70ch;
+  margin-bottom: 0;
+}
+
+.sources {
+  padding-left: 1.2rem;
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-block: 2rem 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.35);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    align-items: flex-start;
+  }
+
+  nav {
+    max-width: 13rem;
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

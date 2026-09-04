@@ -12,7 +12,7 @@ export default function GitHubLink() {
       rel="noopener noreferrer"
       aria-label={t('app.github')}
       title={t('app.github')}
-      className="flex h-[34px] w-[34px] items-center justify-center border border-space-line text-white/55 transition-all hover:border-white/40 hover:bg-white/[0.03] hover:text-white/90"
+      className="hidden h-[34px] w-[34px] items-center justify-center border border-space-line text-white/55 transition-all hover:border-white/40 hover:bg-white/[0.03] hover:text-white/90 md:flex"
     >
       <svg
         width="16"

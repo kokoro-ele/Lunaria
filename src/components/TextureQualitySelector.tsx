@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   isMoonTextureLoaded,
@@ -9,15 +9,26 @@ import {
   type MoonTextureQuality,
 } from '../lib/moonTexture'
 import { useStore } from '../store'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 export default function TextureQualitySelector() {
   const { t } = useTranslation()
   const textureQuality = useStore((s) => s.textureQuality)
   const setTextureQuality = useStore((s) => s.setTextureQuality)
+  const isMobile = useIsMobile()
   const [hint, setHint] = useState('')
   const [, tick] = useState(0)
+  const latestSelection = useRef(0)
 
   useEffect(() => subscribeMoonTexture(() => tick((n) => n + 1)), [])
+
+  useEffect(() => {
+    if (isMobile && textureQuality === '8k') {
+      latestSelection.current += 1
+      setTextureQuality('2k')
+      setHint('')
+    }
+  }, [isMobile, textureQuality, setTextureQuality])
 
   useEffect(() => {
     if (!hint) return
@@ -25,8 +36,12 @@ export default function TextureQualitySelector() {
     return () => window.clearTimeout(timer)
   }, [hint])
 
-  const select = (quality: MoonTextureQuality) => {
-    if (quality === textureQuality) return
+  const select = async (quality: MoonTextureQuality) => {
+    const selection = ++latestSelection.current
+    if (quality === textureQuality) {
+      setHint('')
+      return
+    }
 
     if (isMoonTextureLoaded(quality)) {
       setTextureQuality(quality)
@@ -34,10 +49,18 @@ export default function TextureQualitySelector() {
       return
     }
 
-    if (!isMoonTextureLoading(quality)) {
-      loadMoonTexture(quality).catch(() => {})
+    setHint(t('texture.downloading'))
+    try {
+      await loadMoonTexture(quality)
+      if (selection === latestSelection.current) {
+        setTextureQuality(quality)
+        setHint('')
+      }
+    } catch {
+      if (selection === latestSelection.current) {
+        setHint(t('texture.loadFailed'))
+      }
     }
-    setHint(t('texture.notReady'))
   }
 
   return (
@@ -47,7 +70,7 @@ export default function TextureQualitySelector() {
         role="group"
         aria-label={t('texture.label')}
       >
-        {MOON_TEXTURE_QUALITIES.map((q) => {
+        {MOON_TEXTURE_QUALITIES.filter((q) => !isMobile || q !== '8k').map((q) => {
           const active = textureQuality === q
           const ready = isMoonTextureLoaded(q)
           const loading = isMoonTextureLoading(q)
@@ -65,7 +88,7 @@ export default function TextureQualitySelector() {
                   ? t(`texture.tiers.${q}`)
                   : loading
                     ? t('texture.downloading')
-                    : t('texture.notReady')
+                    : t('texture.loadOnDemand')
               }
             >
               {t(`texture.tiers.${q}`)}

@@ -2,18 +2,21 @@
   "name": "lunaria",
   "private": true,
   "version": "0.1.0",
-  "homepage": "https://kokoro-ele.github.io/Lunaria/",
+  "homepage": "https://lunaria.timeblind.xyz/",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "test": "vitest run",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --base /Lunaria/"
   },
   "dependencies": {
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.10",
     "astronomy-engine": "^2.1.19",
-    "d3-geo": "^3.1.1",
     "i18next": "^23.16.4",
     "i18next-browser-languagedetector": "^8.0.0",
     "react": "^18.3.1",
@@ -26,17 +29,17 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
-    "@types/d3-geo": "^3.1.0",
     "@types/node": "^26.1.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@types/three": "^0.169.0",
     "@types/topojson-client": "^3.1.5",
-    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
+    "postcss": "^8.5.28",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   }
 }

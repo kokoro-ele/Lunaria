@@ -5,16 +5,22 @@ import type { MoonView } from '../lib/astronomy'
 export default function MoonReadout({
   view,
   expandUp = false,
+  locationSelected = false,
 }: {
   view: MoonView
   expandUp?: boolean
+  locationSelected?: boolean
 }) {
   const { t } = useTranslation()
   const [collapsed, setCollapsed] = useState(false)
+  const aboveHorizon = view.altitude >= 0
+  const phaseLabel = t(`moon.phases.${view.phaseKey}`)
+  const illuminationLabel = `${(view.illumination * 100).toFixed(1)}%`
+  const horizonLabel = aboveHorizon ? t('moon.aboveHorizon') : t('moon.belowHorizon')
 
   const rows = [
-    { label: t('moon.phase'), value: t(`moon.phases.${view.phaseKey}`) },
-    { label: t('moon.illumination'), value: `${(view.illumination * 100).toFixed(1)}%` },
+    { label: t('moon.phase'), value: phaseLabel },
+    { label: t('moon.illumination'), value: illuminationLabel },
     {
       label: t('moon.age'),
       value: `${view.ageDays.toFixed(1)} ${t('moon.days')}`,
@@ -23,6 +29,12 @@ export default function MoonReadout({
       label: t('moon.distance'),
       value: `${Math.round(view.distanceKm).toLocaleString()} km`,
     },
+    {
+      label: t('moon.visibility'),
+      value: horizonLabel,
+    },
+    { label: t('moon.altitude'), value: `${view.altitude.toFixed(1)}°` },
+    { label: t('moon.azimuth'), value: `${view.azimuth.toFixed(1)}°` },
   ]
 
   return (
@@ -37,6 +49,7 @@ export default function MoonReadout({
           expandUp ? 'px-3 py-2.5' : 'px-4 py-3 md:px-5 md:py-3.5'
         }`}
         aria-label={collapsed ? t('controls.expand') : t('controls.collapse')}
+        aria-expanded={!collapsed}
       >
         <span className="label !truncate !text-white/55">{t('moon.panelTitle')}</span>
         <svg
@@ -66,12 +79,28 @@ export default function MoonReadout({
             expandUp ? 'border-b border-space-lineSoft' : 'border-t border-space-lineSoft'
           }`}
         >
-          {rows.map((r) => (
-            <div key={r.label}>
-              <div className="label mb-0.5 md:mb-1">{r.label}</div>
-              <div className="font-mono text-xs text-white/90 md:text-sm">{r.value}</div>
-            </div>
-          ))}
+          <dl className="space-y-2.5 md:space-y-3.5">
+            {rows.map((r) => (
+              <div key={r.label}>
+                <dt className="label mb-0.5 md:mb-1">{r.label}</dt>
+                <dd className="m-0 font-mono text-xs text-white/90 md:text-sm">{r.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {locationSelected && (
+            <p className="border-t border-space-lineSoft pt-2.5 text-[10px] font-light leading-relaxed text-white/45">
+              {t('moon.summary', {
+                phase: phaseLabel,
+                illumination: illuminationLabel,
+                horizon: horizonLabel.toLocaleLowerCase(),
+              })}
+            </p>
+          )}
+          {locationSelected && !aboveHorizon && (
+            <p className="border-t border-space-lineSoft pt-2.5 text-[10px] font-light leading-relaxed text-space-glow/80">
+              {t('moon.belowHorizonNote')}
+            </p>
+          )}
         </div>
       )}
     </div>

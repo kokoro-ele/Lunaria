@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { lazy, Suspense, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import GlobePicker from './GlobePicker'
 import ScaledToFit from './ScaledToFit'
+
+const GlobePicker = lazy(() => import('./GlobePicker'))
 
 interface ControlsPanelProps {
   date: string
@@ -43,6 +44,8 @@ export default function ControlsPanel({
 }: ControlsPanelProps) {
   const { t, i18n } = useTranslation()
   const [collapsed, setCollapsed] = useState(false)
+  const dateInputId = useId()
+  const timeInputId = useId()
   const langTag = LANG_TAG[i18n.resolvedLanguage === 'zh' ? 'zh' : 'en']
 
   const globeBox = (
@@ -55,7 +58,15 @@ export default function ControlsPanel({
           : 'border-space-glow/70 shadow-[0_0_24px_-6px_rgba(180,205,255,0.5)]'
       }`}
     >
-      <GlobePicker lat={lat} lon={lon} onPick={onPick} />
+      <Suspense
+        fallback={
+          <div className="flex h-full items-center justify-center text-[9px] font-mono uppercase tracking-widest2 text-white/30">
+            {t('controls.loadingGlobe')}
+          </div>
+        }
+      >
+        <GlobePicker lat={lat} lon={lon} onPick={onPick} />
+      </Suspense>
       <div
         className={`pointer-events-none absolute bottom-1.5 left-1.5 right-1.5 text-center font-mono uppercase tracking-widest2 ${
           expandUp ? 'text-[8px]' : 'text-[10px]'
@@ -72,22 +83,34 @@ export default function ControlsPanel({
     <>
       <div className={`flex items-end justify-between ${expandUp ? 'gap-2' : 'gap-3'}`}>
         <div className="min-w-0 flex-1">
-          <div className={`label ${expandUp ? 'mb-1' : 'mb-1.5'}`}>{t('controls.date')}</div>
+          <label htmlFor={dateInputId} className={`label block ${expandUp ? 'mb-1' : 'mb-1.5'}`}>
+            {t('controls.date')}
+          </label>
           <input
+            id={dateInputId}
+            name="observation-date"
             type="date"
             lang={langTag}
             value={date}
-            onChange={(e) => onDate(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value) onDate(e.target.value)
+            }}
             className={`field w-full min-w-0 ${expandUp ? 'px-2 py-1.5 text-xs' : ''}`}
           />
         </div>
         <div className={`shrink-0 ${expandUp ? 'w-[72px]' : 'w-[96px]'}`}>
-          <div className={`label ${expandUp ? 'mb-1' : 'mb-1.5'}`}>{t('controls.time')}</div>
+          <label htmlFor={timeInputId} className={`label block ${expandUp ? 'mb-1' : 'mb-1.5'}`}>
+            {t('controls.time')}
+          </label>
           <input
+            id={timeInputId}
+            name="observation-time"
             type="time"
             lang={langTag}
             value={time}
-            onChange={(e) => onTime(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value) onTime(e.target.value)
+            }}
             className={`field w-full ${expandUp ? 'px-2 py-1.5 text-xs' : ''}`}
           />
         </div>
@@ -103,15 +126,23 @@ export default function ControlsPanel({
   )
 
   const metaSection = (
-    <div className={`space-y-1.5 font-mono text-white/55 ${expandUp ? 'text-[10px]' : 'space-y-2 text-xs'}`}>
-      <div className="flex justify-between gap-2">
-        <span className="text-white/35">{t('controls.coordinates')}</span>
-        <span className="text-right">{fmtCoord(lat, 'N', 'S')}, {fmtCoord(lon, 'E', 'W')}</span>
+    <div>
+      <div className={`space-y-1.5 font-mono text-white/55 ${expandUp ? 'text-[10px]' : 'space-y-2 text-xs'}`}>
+        <div className="flex justify-between gap-2">
+          <span className="text-white/35">{t('controls.coordinates')}</span>
+          <span className="text-right">{fmtCoord(lat, 'N', 'S')}, {fmtCoord(lon, 'E', 'W')}</span>
+        </div>
+        <div className="flex justify-between gap-2">
+          <span className="shrink-0 text-white/35">{t('controls.timezone')}</span>
+          <span className="text-right">{tzLabel}</span>
+        </div>
       </div>
-      <div className="flex justify-between gap-2">
-        <span className="shrink-0 text-white/35">{t('controls.timezone')}</span>
-        <span className="text-right">{tzLabel}</span>
-      </div>
+      <a
+        href={`${import.meta.env.BASE_URL}about.html`}
+        className="mt-3 inline-flex text-[10px] font-mono uppercase tracking-widest2 text-white/35 underline-offset-4 transition-colors hover:text-white/75 hover:underline"
+      >
+        {t('controls.methodology')}
+      </a>
     </div>
   )
 
@@ -165,6 +196,7 @@ export default function ControlsPanel({
           expandUp ? 'px-3 py-2.5' : 'px-5 py-3.5'
         }`}
         aria-label={collapsed ? t('controls.expand') : t('controls.collapse')}
+        aria-expanded={!collapsed}
       >
         <span className="label !text-white/55">{t('controls.panelTitle')}</span>
         <svg

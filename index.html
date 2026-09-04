@@ -2,10 +2,82 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/moon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%moon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#04060a" />
-    <title>Lunaria · Moon of the Day</title>
+    <meta name="color-scheme" content="dark" />
+    <title>Lunaria — Interactive Moon Phase & Libration Viewer</title>
+    <meta
+      name="description"
+      content="Explore the Moon's phase, illumination, distance, libration, and local sky orientation for any date, time, and location in an interactive 3D viewer."
+    />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="canonical" href="https://lunaria.timeblind.xyz/" />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      href="https://lunaria.timeblind.xyz/sitemap.xml"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Lunaria" />
+    <meta property="og:title" content="Lunaria — Interactive Moon Phase & Libration Viewer" />
+    <meta
+      property="og:description"
+      content="Explore the Moon's phase, illumination, distance, libration, and local sky orientation for any date, time, and place."
+    />
+    <meta property="og:url" content="https://lunaria.timeblind.xyz/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Lunaria interactive 3D Moon viewer showing the Moon, controls, and lunar data"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lunaria — Interactive Moon Phase & Libration Viewer" />
+    <meta
+      name="twitter:description"
+      content="Explore the Moon's phase and orientation for any date, time, and place."
+    />
+    <meta name="twitter:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Lunaria interactive 3D Moon viewer showing the Moon, controls, and lunar data"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": "https://lunaria.timeblind.xyz/#app",
+        "name": "Lunaria",
+        "url": "https://lunaria.timeblind.xyz/",
+        "description": "An interactive 3D viewer for Moon phase, illumination, distance, libration, and local sky orientation.",
+        "applicationCategory": "EducationalApplication",
+        "applicationSubCategory": "Astronomy",
+        "operatingSystem": "Any",
+        "browserRequirements": "A modern web browser with WebGL support",
+        "isAccessibleForFree": true,
+        "inLanguage": ["en", "zh-CN"],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "screenshot": "https://lunaria.timeblind.xyz/og-cover.png",
+        "featureList": [
+          "Interactive 3D Moon phase visualization",
+          "Lunar illumination, age, distance, and libration",
+          "Location-aware Moon orientation and horizon status",
+          "Downloadable keepsake cards"
+        ]
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

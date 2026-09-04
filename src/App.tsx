@@ -1,22 +1,18 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from './store'
 import { computeMoonView } from './lib/astronomy'
-import { localWallTimeToUtc, timezoneFor, offsetLabel } from './lib/timezone'
+import { localWallTimeToUtc, timezoneFor, offsetLabel, wallTimeAt } from './lib/timezone'
 import MoonScene from './components/MoonScene'
 import ControlsPanel from './components/ControlsPanel'
 import MoonReadout from './components/MoonReadout'
 import ViewFollowToggle from './components/ViewFollowToggle'
-import ShareDialog from './components/ShareDialog'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import GitHubLink from './components/GitHubLink'
 import TextureQualitySelector from './components/TextureQualitySelector'
 import LoadingScreen from './components/LoadingScreen'
-import { loadMoonTexture, preloadOptionalMoonTextures } from './lib/moonTexture'
 
-function pad(n: number) {
-  return String(n).padStart(2, '0')
-}
+const ShareDialog = lazy(() => import('./components/ShareDialog'))
 
 export default function App() {
   const { t, i18n } = useTranslation()
@@ -29,28 +25,44 @@ export default function App() {
     tiltCorrection,
     setDate,
     setTime,
+    setDateTime,
     setLocation,
     setTiltCorrection,
   } = useStore()
   const [shareOpen, setShareOpen] = useState(false)
   const [sceneReady, setSceneReady] = useState(false)
+  const [sceneError, setSceneError] = useState(false)
+  const [textureRetryKey, setTextureRetryKey] = useState(0)
   const [loaderDone, setLoaderDone] = useState(false)
 
-  const handleBootstrapReady = useCallback(() => setSceneReady(true), [])
-
-  useEffect(() => {
-    loadMoonTexture('2k').catch(() => {})
+  const handleBootstrapReady = useCallback(() => {
+    setSceneError(false)
+    setSceneReady(true)
   }, [])
-
-  useEffect(() => {
-    if (loaderDone) preloadOptionalMoonTextures()
-  }, [loaderDone])
+  const handleBootstrapError = useCallback(() => setSceneError(true), [])
+  const handleTextureRetry = useCallback(() => {
+    setSceneError(false)
+    setTextureRetryKey((key) => key + 1)
+  }, [])
+  const handleShareOpen = useCallback(() => setShareOpen(true), [])
+  const handleShareClose = useCallback(() => setShareOpen(false), [])
 
   const uiLang = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US'
 
   useEffect(() => {
     document.documentElement.lang = uiLang
-  }, [uiLang])
+    const title = t('app.metaTitle')
+    const description = t('app.metaDescription')
+    document.title = title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description)
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', title)
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description)
+    document
+      .querySelector('meta[property="og:locale"]')
+      ?.setAttribute('content', uiLang === 'zh-CN' ? 'zh_CN' : 'en_US')
+  }, [t, uiLang])
 
   const timeZone = useMemo(
     () => timezoneFor(latitude, longitude),
@@ -89,9 +101,8 @@ export default function App() {
   } ${Math.abs(longitude).toFixed(1)}°${longitude >= 0 ? 'E' : 'W'}`
 
   const handleNow = () => {
-    const now = new Date()
-    setDate(`${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`)
-    setTime(`${pad(now.getHours())}:${pad(now.getMinutes())}`)
+    const now = wallTimeAt(new Date(), timeZone)
+    setDateTime(now.date, now.time)
   }
 
   const panelProps = {
@@ -108,9 +119,15 @@ export default function App() {
   }
 
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-space-black">
+    <main className="relative h-[100dvh] w-full overflow-hidden bg-space-black">
       <div className="absolute inset-0">
-        <MoonScene view={view} tiltCorrection={tiltCorrection} onBootstrapReady={handleBootstrapReady} />
+        <MoonScene
+          view={view}
+          tiltCorrection={tiltCorrection}
+          retryKey={textureRetryKey}
+          onBootstrapReady={handleBootstrapReady}
+          onBootstrapError={handleBootstrapError}
+        />
 
         <div
           className="pointer-events-none absolute inset-0"
@@ -131,12 +148,17 @@ export default function App() {
       </div>
 
       {!loaderDone && (
-        <LoadingScreen ready={sceneReady} onDone={() => setLoaderDone(true)} />
+        <LoadingScreen
+          ready={sceneReady}
+          error={sceneError}
+          onRetry={handleTextureRetry}
+          onDone={() => setLoaderDone(true)}
+        />
       )}
 
       <header className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between p-3 pt-[max(0.75rem,env(safe-area-inset-top))] md:p-7">
         <div className="pointer-events-auto min-w-0">
-          <h1 className="truncate text-base font-light tracking-[0.28em] text-white/90 md:text-lg md:tracking-[0.32em]">
+          <h1 className="truncate text-base font-light tracking-[0.18em] text-white/90 md:text-lg md:tracking-[0.32em]">
             {t('app.title').toUpperCase()}
           </h1>
           <p className="mt-0.5 hidden text-[11px] font-light tracking-wide text-white/40 md:block">
@@ -145,7 +167,8 @@ export default function App() {
         </div>
         <div className="pointer-events-auto flex shrink-0 items-center gap-2 md:gap-3">
           <button
-            onClick={() => setShareOpen(true)}
+            type="button"
+            onClick={handleShareOpen}
             className="btn-line min-h-[36px] px-3 py-1.5 text-[10px] md:px-4 md:py-2 md:text-xs"
           >
             {t('share.button')}
@@ -167,7 +190,7 @@ export default function App() {
         </div>
         <div className="pointer-events-auto min-w-0 max-w-[calc(50%-0.25rem)]">
           <div className="max-h-[min(52dvh,calc(100dvh-11rem))] overflow-y-auto overscroll-contain">
-            <MoonReadout view={view} expandUp />
+            <MoonReadout view={view} expandUp locationSelected={locationSelected} />
           </div>
         </div>
       </div>
@@ -191,7 +214,7 @@ export default function App() {
 
       <div className="pointer-events-none absolute bottom-5 right-5 z-20 hidden md:block">
         <div className="pointer-events-auto">
-          <MoonReadout view={view} />
+          <MoonReadout view={view} locationSelected={locationSelected} />
         </div>
       </div>
 
@@ -199,13 +222,17 @@ export default function App() {
         {t('footer.credit')}
       </div>
 
-      <ShareDialog
-        open={shareOpen}
-        onClose={() => setShareOpen(false)}
-        view={view}
-        dateLabel={dateLabel}
-        locationLabel={locationLabel}
-      />
-    </div>
+      {shareOpen && (
+        <Suspense fallback={null}>
+          <ShareDialog
+            open
+            onClose={handleShareClose}
+            view={view}
+            dateLabel={dateLabel}
+            locationLabel={locationLabel}
+          />
+        </Suspense>
+      )}
+    </main>
   )
 }

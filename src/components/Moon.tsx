@@ -13,11 +13,19 @@ const DEG = Math.PI / 180
 interface MoonProps {
   view: MoonView
   tiltCorrection: boolean
+  retryKey?: number
   /** Fires once when the bootstrap (2K) texture is applied. */
   onBootstrapReady?: () => void
+  onBootstrapError?: () => void
 }
 
-export default function Moon({ view, tiltCorrection, onBootstrapReady }: MoonProps) {
+export default function Moon({
+  view,
+  tiltCorrection,
+  retryKey = 0,
+  onBootstrapReady,
+  onBootstrapError,
+}: MoonProps) {
   const isMobile = useIsMobile()
   const textureQuality = useStore((s) => s.textureQuality)
   const [colorMap, setColorMap] = useState<THREE.Texture | null>(null)
@@ -27,22 +35,28 @@ export default function Moon({ view, tiltCorrection, onBootstrapReady }: MoonPro
   useEffect(() => {
     let alive = true
 
-    loadMoonTexture(textureQuality).then((tex) => {
-      if (!alive) return
-      tex.anisotropy = isMobile ? 4 : 8
-      tex.needsUpdate = true
-      setColorMap(tex)
+    loadMoonTexture(textureQuality)
+      .then((tex) => {
+        if (!alive) return
+        tex.anisotropy = isMobile ? 4 : 8
+        tex.needsUpdate = true
+        setColorMap(tex)
 
-      if (textureQuality === BOOTSTRAP_TEXTURE_QUALITY && !bootstrapped.current) {
-        bootstrapped.current = true
-        onBootstrapReady?.()
-      }
-    })
+        if (textureQuality === BOOTSTRAP_TEXTURE_QUALITY && !bootstrapped.current) {
+          bootstrapped.current = true
+          onBootstrapReady?.()
+        }
+      })
+      .catch(() => {
+        if (alive && textureQuality === BOOTSTRAP_TEXTURE_QUALITY) {
+          onBootstrapError?.()
+        }
+      })
 
     return () => {
       alive = false
     }
-  }, [textureQuality, isMobile, onBootstrapReady])
+  }, [textureQuality, isMobile, retryKey, onBootstrapReady, onBootstrapError])
 
   const sun = view.sunDir
   const sunPos = useMemo(

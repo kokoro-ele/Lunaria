@@ -10,7 +10,9 @@ import { useIsMobile } from '../hooks/useIsMobile'
 interface MoonSceneProps {
   view: MoonView
   tiltCorrection: boolean
+  retryKey?: number
   onBootstrapReady?: () => void
+  onBootstrapError?: () => void
 }
 
 function LockView({ locked }: { locked: boolean }) {
@@ -21,7 +23,13 @@ function LockView({ locked }: { locked: boolean }) {
   return null
 }
 
-export default function MoonScene({ view, tiltCorrection, onBootstrapReady }: MoonSceneProps) {
+export default function MoonScene({
+  view,
+  tiltCorrection,
+  retryKey,
+  onBootstrapReady,
+  onBootstrapError,
+}: MoonSceneProps) {
   const isMobile = useIsMobile()
   const cam = isMobile ? MOON_CAMERA.mobile : MOON_CAMERA.desktop
 
@@ -57,7 +65,13 @@ export default function MoonScene({ view, tiltCorrection, onBootstrapReady }: Mo
           fade
           speed={0.4}
         />
-        <Moon view={view} tiltCorrection={tiltCorrection} onBootstrapReady={onBootstrapReady} />
+        <Moon
+          view={view}
+          tiltCorrection={tiltCorrection}
+          retryKey={retryKey}
+          onBootstrapReady={onBootstrapReady}
+          onBootstrapError={onBootstrapError}
+        />
       </Suspense>
       <LockView locked={tiltCorrection} />
       <OrbitControls

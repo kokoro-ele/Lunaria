@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  极简、现代、科技感的月相网站 —— 选择日期、时间与地点，还原那一刻真实可见的月亮。
-  [预览](https://lunaria.timeblind.xyz/)
+  极简、现代、科技感的月相网站 —— 选择日期、时间与地点，还原那一刻真实可见的月亮。<br />
+  <a href="https://lunaria.timeblind.xyz/">在线预览</a>
 </p>
 
 ---
@@ -35,8 +35,8 @@
 **Lunaria** 是一个面向 Web 的交互式月相可视化应用。在太空黑背景与星空下，你可以：
 
 1. 在 **3D 线框地球仪** 上点击选择观测地点  
-2. 设定 **日期与时间**（按当地当地时间理解）  
-3. 查看 **高解析度 3D 月球** —— 月相、明暗交界、天平动与本地观测倾斜角，均按真实天文计算呈现  
+2. 设定 **日期与时间**（按所选地点的当地时间理解）
+3. 查看 **高解析度 3D 月球** —— 月相、明暗交界、天平动、本地观测倾斜角与地平线状态均按天文计算呈现
 4. 生成 **纪念分享卡片**（PNG），附带日期、地点与自定义留言  
 
 > *The moon, exactly as it was.*  
@@ -53,6 +53,8 @@
 | **本地观测角度** | 默认开启，按所选地点与时刻还原月亮在夜空中的真实倾斜；关闭后可自由旋转查看 |
 | **3D 地球仪选点** | 线框球体 + 经纬网 + 海岸线，点击即可选取坐标 |
 | **时区感知** | 日期/时间按当地墙钟时间解释，自动解析时区并处理夏令时 |
+| **地平线状态** | 显示月球高度角、方位角，并在月亮位于当地地平线下方时提示 |
+| **按需高清纹理** | 2K 快速启动，4K/8K 由用户按需载入；CDN 失败自动回退同源资源 |
 | **分享卡片** | 导出 PNG，含月亮快照、日期、地点、月相与留言；内置「你出生那天的月亮」等候选文案 |
 | **中英双语** | 跟随浏览器语言，右上角可切换 English / 中文 |
 | **线条风 UI** | 细描边、等宽字体、留白与微光，控制面板可折叠 |
@@ -63,14 +65,14 @@
 
 ### 环境要求
 
-- Node.js 18+
+- Node.js 20.19+（20.x）或 22.12+
 - npm / pnpm / yarn
 
 ### 安装与运行
 
 ```bash
 # 克隆仓库
-git clone https://github.com/<your-username>/Lunaria.git
+git clone https://github.com/kokoro-ele/Lunaria.git
 cd Lunaria
 
 # 安装依赖
@@ -83,6 +85,9 @@ npm run dev
 # 生产构建（本地）
 npm run build
 
+# 运行天文与时区测试
+npm test
+
 # 预览 GitHub Pages 构建效果（与线上一致）
 VITE_BASE=/Lunaria/ npm run build && npm run preview
 ```
@@ -93,7 +98,7 @@ VITE_BASE=/Lunaria/ npm run build && npm run preview
 
 本项目已配置 GitHub Actions，推送到 `main` 分支后自动部署。
 
-**在线地址：** `https://<your-username>.github.io/Lunaria/`
+**在线地址：** <https://lunaria.timeblind.xyz/>（[GitHub Pages 镜像](https://kokoro-ele.github.io/Lunaria/)）
 
 ### 首次启用步骤
 
@@ -147,9 +152,9 @@ npm run preview
 | 时区 | tz-lookup |
 | 状态 | zustand |
 | 国际化 | i18next · react-i18next |
-| 分享 | html-to-image |
+| 分享 | Canvas 2D · Web Share API |
 | 样式 | Tailwind CSS |
-| 地图数据 | world-atlas · topojson-client · d3-geo |
+| 地图数据 | world-atlas · topojson-client |
 
 ---
 
@@ -162,6 +167,7 @@ Lunaria/
 │   └── moon.svg
 ├── docs/
 │   └── preview.png        # 预览图
+├── about.html              # 可索引的计算方法与 FAQ
 ├── src/
 │   ├── components/        # UI 与 3D 组件
 │   │   ├── MoonScene.tsx  # 主场景 (Canvas)
@@ -195,6 +201,7 @@ Lunaria/
 光照在**与月面贴图一致的天北朝上坐标系**中计算，再施加视差旋转，以保证北半球「盈月右亮、亏月左亮」等直觉与真实观测一致。
 
 > 本项目面向科普与纪念用途，计算精度依赖 astronomy-engine，未替代专业天文软件或观测设备。
+> “位于地平线上方”表示计算几何位置；本项目不模拟地形、建筑、云层、空气透明度或日光亮度。
 
 ---
 
@@ -240,7 +247,7 @@ Lunaria/
 
 1. Pick a location on an interactive **3D wireframe globe**
 2. Set a **date and time** (interpreted as local wall-clock time at that place)
-3. View a **high-resolution 3D Moon** with physically correct phase, terminator, libration, and local viewing tilt
+3. View a **high-resolution 3D Moon** with calculated phase, terminator, libration, local viewing tilt, altitude, and azimuth
 4. Export a **keepsake share card** (PNG) with the Moon snapshot, metadata, and a custom message
 
 ---
@@ -254,6 +261,8 @@ Lunaria/
 | **Local viewing angle** | On by default — shows the Moon at the tilt you'd actually see from the chosen place and time; turn off to freely rotate |
 | **3D globe picker** | Wireframe sphere with graticule and coastlines; click to select coordinates |
 | **Timezone-aware** | Date/time treated as local wall-clock time; timezone resolved from coordinates with DST support |
+| **Horizon status** | Reports altitude and azimuth and explains when the Moon is below the local horizon |
+| **On-demand textures** | Fast 2K bootstrap; 4K/8K load on request with same-origin fallback |
 | **Share cards** | Export PNG with Moon snapshot, date, location, phase, and message; preset suggestions included |
 | **i18n** | English / 中文, auto-detected; switchable in the header |
 | **Line-style UI** | Thin borders, monospace accents, collapsible control panel |
@@ -264,17 +273,18 @@ Lunaria/
 
 ### Requirements
 
-- Node.js 18+
+- Node.js 20.19+ (20.x) or 22.12+
 - npm / pnpm / yarn
 
 ### Install & Run
 
 ```bash
-git clone https://github.com/<your-username>/Lunaria.git
+git clone https://github.com/kokoro-ele/Lunaria.git
 cd Lunaria
 npm install
 npm run dev      # http://localhost:5173
 npm run build    # type-check + production build → dist/
+npm test         # astronomy and timezone regression tests
 npm run preview  # preview the production build
 ```
 
@@ -284,7 +294,7 @@ npm run preview  # preview the production build
 
 The repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that deploys on every push to `main`.
 
-**Live URL:** `https://<your-username>.github.io/Lunaria/`
+**Live URL:** <https://lunaria.timeblind.xyz/> ([GitHub Pages mirror](https://kokoro-ele.github.io/Lunaria/))
 
 1. Create a GitHub repo named **`Lunaria`**
 2. Push to `main`
@@ -319,9 +329,9 @@ VITE_BASE=/Lunaria/ npm run build && npm run preview
 | Timezone | tz-lookup |
 | State | zustand |
 | i18n | i18next · react-i18next |
-| Sharing | html-to-image |
+| Sharing | Canvas 2D · Web Share API |
 | Styling | Tailwind CSS |
-| Map data | world-atlas · topojson-client · d3-geo |
+| Map data | world-atlas · topojson-client |
 
 ---
 
@@ -342,7 +352,7 @@ Key modules:
 
 Lighting is computed in a **celestial-north-up frame** (matching the Moon texture orientation), then rotated by the parallactic angle to match the observer's local sky. This ensures familiar rules hold — e.g. waxing moons appear lit on the right in the Northern Hemisphere.
 
-Intended for commemorative and educational use; not a substitute for professional ephemeris software or observational equipment.
+Intended for commemorative and educational use; not a substitute for professional ephemeris software or observational equipment. Horizon status is geometric and does not model terrain, buildings, clouds, atmospheric transparency, or daylight brightness.
 
 ---
 

@@ -2,14 +2,19 @@
   "app": {
     "title": "Lunaria",
     "tagline": "那一刻的月亮，分毫不差。",
+    "metaTitle": "Lunaria 月相查询 — 交互式 3D 月球与天平动查看器",
+    "metaDescription": "按日期、时间和地点查询月相、照亮比例、距离、天平动、高度角及当地天空朝向，并以 3D 方式查看月亮。",
     "github": "在 GitHub 查看源码",
     "loading": "正在载入月亮",
-    "loadingReady": "即将呈现"
+    "loadingReady": "即将呈现",
+    "loadingFailed": "月球纹理载入失败",
+    "retry": "重试"
   },
   "texture": {
     "label": "纹理清晰度",
-    "notReady": "高清纹理仍在下载，请稍候再试",
     "downloading": "下载中",
+    "loadOnDemand": "载入此纹理",
+    "loadFailed": "纹理下载失败，请重试",
     "tiers": {
       "2k": "2K",
       "4k": "4K",
@@ -23,6 +28,7 @@
     "timezone": "当地时区",
     "coordinates": "坐标",
     "pickOnGlobe": "点击地球仪选择地点",
+    "loadingGlobe": "正在载入地球仪",
     "selectPrompt": "转动地球仪，选择你的地点",
     "today": "此刻",
     "viewFollow": "视角追随地点",
@@ -31,7 +37,8 @@
     "openDrawer": "打开控制台",
     "closeDrawer": "关闭控制台",
     "collapse": "收起",
-    "expand": "展开"
+    "expand": "展开",
+    "methodology": "计算方法与常见问题"
   },
   "moon": {
     "panelTitle": "月相数据",
@@ -39,6 +46,13 @@
     "illumination": "照亮比例",
     "age": "月龄",
     "distance": "距离",
+    "visibility": "地平线状态",
+    "aboveHorizon": "位于地平线上方",
+    "belowHorizon": "位于地平线下方",
+    "altitude": "高度角",
+    "azimuth": "方位角",
+    "belowHorizonNote": "此时月亮位于当地地平线下方，页面仍展示其计算月相。",
+    "summary": "在所选地点和时刻，月亮为{{phase}}，照亮比例 {{illumination}}，{{horizon}}。",
     "days": "天",
     "phases": {
       "new": "新月",
@@ -61,6 +75,8 @@
     "save": "保存 / 分享",
     "saveHint": "在分享菜单中选择「存储到照片」即可保存到相册",
     "rendering": "合成中…",
+    "failed": "图片生成失败，请重试。",
+    "moonPreviewAlt": "纪念卡片中的月亮效果预览",
     "close": "关闭",
     "presetList": {
       "birth": "你出生那天的月亮",

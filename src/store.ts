@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { MoonTextureQuality } from './lib/moonTexture'
+import { timezoneFor, wallTimeAt } from './lib/timezone'
 
 export interface AppState {
   /** Local date at the selected location, format YYYY-MM-DD */
@@ -10,8 +11,6 @@ export interface AppState {
   longitude: number
   /** Whether the user has explicitly chosen a location yet */
   locationSelected: boolean
-  /** Free-form custom message used on the share card */
-  message: string
   /** Tilt the Moon to the angle actually seen from the chosen place (parallactic) */
   tiltCorrection: boolean
   /** Active moon surface texture resolution */
@@ -20,32 +19,32 @@ export interface AppState {
 
   setDate: (date: string) => void
   setTime: (time: string) => void
+  setDateTime: (date: string, time: string) => void
   setLocation: (latitude: number, longitude: number) => void
-  setMessage: (message: string) => void
   setTiltCorrection: (tiltCorrection: boolean) => void
 }
 
-function pad(n: number) {
-  return String(n).padStart(2, '0')
-}
-
-const now = new Date()
+const DEFAULT_LATITUDE = 51.4779
+const DEFAULT_LONGITUDE = -0.0015
+const initialWallTime = wallTimeAt(
+  new Date(),
+  timezoneFor(DEFAULT_LATITUDE, DEFAULT_LONGITUDE),
+)
 
 export const useStore = create<AppState>((set) => ({
-  date: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
-  time: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
-  latitude: 51.4779,
-  longitude: -0.0015,
+  date: initialWallTime.date,
+  time: initialWallTime.time,
+  latitude: DEFAULT_LATITUDE,
+  longitude: DEFAULT_LONGITUDE,
   locationSelected: false,
-  message: '',
   tiltCorrection: true,
   textureQuality: '2k',
 
   setDate: (date) => set({ date }),
   setTime: (time) => set({ time }),
+  setDateTime: (date, time) => set({ date, time }),
   setLocation: (latitude, longitude) =>
     set({ latitude, longitude, locationSelected: true }),
-  setMessage: (message) => set({ message }),
   setTiltCorrection: (tiltCorrection) => set({ tiltCorrection }),
   setTextureQuality: (textureQuality) => set({ textureQuality }),
 }))

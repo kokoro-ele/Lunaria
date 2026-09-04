@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%moon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#04060a" />
+    <meta name="color-scheme" content="dark" />
+    <title>How Lunaria Calculates the Moon — Methodology & FAQ</title>
+    <meta
+      name="description"
+      content="Learn how Lunaria calculates Moon phase, illumination, distance, libration, local sky orientation, altitude, and time zones, with answers to common questions."
+    />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="canonical" href="https://lunaria.timeblind.xyz/about.html" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Lunaria" />
+    <meta property="og:title" content="How Lunaria Calculates the Moon" />
+    <meta
+      property="og:description"
+      content="Methodology, data definitions, accuracy notes, and answers about Lunaria's interactive Moon viewer."
+    />
+    <meta property="og:url" content="https://lunaria.timeblind.xyz/about.html" />
+    <meta property="og:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta property="og:image:alt" content="The Lunaria interactive Moon viewer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How Lunaria Calculates the Moon" />
+    <meta
+      name="twitter:description"
+      content="Methodology, data definitions, accuracy notes, and common questions."
+    />
+    <meta name="twitter:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/about.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does Lunaria calculate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lunaria calculates the Moon's phase, illuminated fraction, age, distance, libration, altitude, azimuth, and local sky orientation for a chosen date, time, and location."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the Moon's phase change with location?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The lunar phase is nearly the same everywhere at one instant, but its altitude, azimuth, apparent rotation, and whether it is above the horizon depend on the observer's location."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does the Moon look rotated from different places?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your local horizon has a different orientation relative to celestial north. Lunaria applies the parallactic angle so the lunar disk is rotated as it would appear in the selected local sky."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is lunar libration?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lunar libration is the Moon's apparent slow rocking, caused mainly by its orbital geometry and orientation. Over time it lets observers see slightly more than half of the lunar surface."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How accurate is Lunaria?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lunaria uses Astronomy Engine for ephemeris calculations and includes observer location, time zone, daylight-saving rules, topocentric position, and standard atmospheric refraction. It is intended for education and keepsakes, not professional navigation or observatory work."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I look up the Moon for a birth date or anniversary?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Choose the historical date, local time, and place, then Lunaria reconstructs the calculated Moon view and can export it as a keepsake image."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="%BASE_URL%" aria-label="Open the Lunaria Moon viewer">LUNARIA</a>
+      <nav aria-label="Page navigation">
+        <a href="#method">Method</a>
+        <a href="#faq">FAQ</a>
+        <a href="#中文">中文</a>
+        <a href="%BASE_URL%">Open viewer</a>
+      </nav>
+    </header>
+
+    <main>
+      <article>
+        <p class="eyebrow">Methodology · Accuracy · Answers</p>
+        <h1>How Lunaria calculates the Moon for any moment and place</h1>
+        <p class="lead">
+          Lunaria is an interactive 3D Moon viewer. Choose a local date, time, and
+          place to calculate the lunar phase, illumination, age, distance,
+          libration, position in the sky, and the angle at which the Moon would
+          appear above your local horizon.
+        </p>
+        <p class="callout">
+          The Moon's phase is nearly global at a given instant. What changes most
+          with location is its altitude, direction, apparent rotation, and whether
+          it is currently above the horizon.
+        </p>
+
+        <section aria-labelledby="data-heading">
+          <h2 id="data-heading">What the viewer reports</h2>
+          <dl class="facts">
+            <div>
+              <dt>Phase and illumination</dt>
+              <dd>The phase name and percentage of the visible disk lit by the Sun.</dd>
+            </div>
+            <div>
+              <dt>Moon age</dt>
+              <dd>The elapsed time since the preceding astronomical new moon.</dd>
+            </div>
+            <div>
+              <dt>Distance</dt>
+              <dd>The calculated distance between Earth and the Moon in kilometres.</dd>
+            </div>
+            <div>
+              <dt>Libration</dt>
+              <dd>The gentle apparent rocking that changes which lunar features face Earth.</dd>
+            </div>
+            <div>
+              <dt>Altitude and azimuth</dt>
+              <dd>The Moon's height above the local horizon and compass direction.</dd>
+            </div>
+            <div>
+              <dt>Local orientation</dt>
+              <dd>The disk rotation produced by the observer's horizon and parallactic angle.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section id="method" aria-labelledby="method-heading">
+          <h2 id="method-heading">Calculation method</h2>
+          <ol class="steps">
+            <li>
+              <strong>Resolve the local time.</strong> Coordinates are mapped to an
+              IANA time zone. The entered wall-clock time is converted to one UTC
+              instant using the applicable daylight-saving offset.
+            </li>
+            <li>
+              <strong>Compute the ephemeris.</strong> Astronomy Engine supplies lunar
+              illumination, phase angle, distance, libration, and topocentric Sun
+              and Moon coordinates.
+            </li>
+            <li>
+              <strong>Project the light.</strong> The Sun direction is projected into
+              a celestial-north-up frame to place the illuminated limb and
+              terminator on the correct side of the lunar disk.
+            </li>
+            <li>
+              <strong>Apply the local view.</strong> The parallactic angle rotates the
+              Moon into the orientation an observer would see relative to their
+              local vertical.
+            </li>
+          </ol>
+        </section>
+
+        <section aria-labelledby="accuracy-heading">
+          <h2 id="accuracy-heading">Accuracy and limitations</h2>
+          <p>
+            Lunaria uses the open-source
+            <a href="https://github.com/cosinekitty/astronomy" rel="external">Astronomy Engine</a>
+            library and topocentric coordinates. Horizon altitude uses a standard
+            atmospheric-refraction model. Historical time-zone results depend on
+            the browser's IANA time-zone database.
+          </p>
+          <p>
+            The viewer does not model local terrain, buildings, clouds, atmospheric
+            transparency, or daylight brightness. “Above the horizon” therefore
+            describes calculated geometry, not guaranteed naked-eye visibility.
+            Surface relief is illustrative, and the app is not a substitute for a
+            professional ephemeris, navigation system, or observatory software.
+          </p>
+        </section>
+
+        <section id="faq" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Frequently asked questions</h2>
+          <div class="faq">
+            <details open>
+              <summary>What does Lunaria calculate?</summary>
+              <p>Lunaria calculates the Moon's phase, illuminated fraction, age, distance, libration, altitude, azimuth, and local sky orientation for a chosen date, time, and location.</p>
+            </details>
+            <details>
+              <summary>Does the Moon's phase change with location?</summary>
+              <p>The lunar phase is nearly the same everywhere at one instant, but its altitude, azimuth, apparent rotation, and whether it is above the horizon depend on the observer's location.</p>
+            </details>
+            <details>
+              <summary>Why does the Moon look rotated from different places?</summary>
+              <p>Your local horizon has a different orientation relative to celestial north. Lunaria applies the parallactic angle so the lunar disk is rotated as it would appear in the selected local sky.</p>
+            </details>
+            <details>
+              <summary>What is lunar libration?</summary>
+              <p>Lunar libration is the Moon's apparent slow rocking, caused mainly by its orbital geometry and orientation. Over time it lets observers see slightly more than half of the lunar surface.</p>
+            </details>
+            <details>
+              <summary>How accurate is Lunaria?</summary>
+              <p>Lunaria uses Astronomy Engine for ephemeris calculations and includes observer location, time zone, daylight-saving rules, topocentric position, and standard atmospheric refraction. It is intended for education and keepsakes, not professional navigation or observatory work.</p>
+            </details>
+            <details>
+              <summary>Can I look up the Moon for a birth date or anniversary?</summary>
+              <p>Yes. Choose the historical date, local time, and place, then Lunaria reconstructs the calculated Moon view and can export it as a keepsake image.</p>
+            </details>
+          </div>
+        </section>
+
+        <section id="中文" lang="zh-CN" aria-labelledby="zh-heading">
+          <p class="eyebrow">计算方法 · 精度 · 常见问题</p>
+          <h2 id="zh-heading">Lunaria 如何还原某时某地的月亮</h2>
+          <p>
+            Lunaria 是交互式 3D 月相查看器。选择当地日期、时间和地点后，页面会计算月相、照亮比例、月龄、地月距离、天平动、高度角、方位角，以及月亮相对当地地平线的倾斜方向。
+          </p>
+          <p>
+            同一绝对时刻，世界各地看到的月相基本一致；地点主要影响月亮在天空中的高度、方向、盘面旋转，以及它是否位于地平线上方。当地时间会通过 IANA 时区和夏令时规则转换成 UTC，再交由 Astronomy Engine 计算站心位置与月面数据。
+          </p>
+          <h3>精度限制</h3>
+          <p>
+            “位于地平线上方”只表示计算几何位置，不代表肉眼一定可见。页面没有模拟山体、建筑、云层、空气透明度或日光亮度。本项目适合科普与纪念用途，不能替代专业星历、导航或天文台软件。
+          </p>
+        </section>
+
+        <section aria-labelledby="sources-heading">
+          <h2 id="sources-heading">Sources and further reading</h2>
+          <ul class="sources">
+            <li><a href="https://science.nasa.gov/moon/moon-phases/" rel="external">NASA — Moon phases</a></li>
+            <li><a href="https://science.nasa.gov/resource/moon-phase-and-libration-2026/" rel="external">NASA SVS — Moon phase and libration</a></li>
+            <li><a href="https://github.com/cosinekitty/astronomy" rel="external">Astronomy Engine documentation and source</a></li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <footer>
+      <a href="%BASE_URL%">Open the Moon viewer</a>
+      <span>·</span>
+      <a href="https://github.com/kokoro-ele/Lunaria">Source on GitHub</a>
+    </footer>
+  </body>
+</html>

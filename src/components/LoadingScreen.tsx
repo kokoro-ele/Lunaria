@@ -4,10 +4,17 @@ import { useTranslation } from 'react-i18next'
 interface LoadingScreenProps {
   /** Moon texture + first frame are ready */
   ready: boolean
+  error?: boolean
   onDone: () => void
+  onRetry?: () => void
 }
 
-export default function LoadingScreen({ ready, onDone }: LoadingScreenProps) {
+export default function LoadingScreen({
+  ready,
+  error = false,
+  onDone,
+  onRetry,
+}: LoadingScreenProps) {
   const { t } = useTranslation()
   const [phase, setPhase] = useState<'loading' | 'exit' | 'done'>('loading')
 
@@ -47,9 +54,18 @@ export default function LoadingScreen({ ready, onDone }: LoadingScreenProps) {
           <div className="loader-sphere__ring loader-sphere__ring--c" />
           <div className="loader-sphere__core" />
         </div>
-        <p className="mt-8 text-[10px] font-mono uppercase tracking-[0.32em] text-white/45">
-          {phase === 'exit' ? t('app.loadingReady') : t('app.loading')}
+        <p className="mt-8 text-center text-[10px] font-mono uppercase tracking-[0.32em] text-white/45">
+          {phase === 'exit'
+            ? t('app.loadingReady')
+            : error
+              ? t('app.loadingFailed')
+              : t('app.loading')}
         </p>
+        {error && phase === 'loading' && (
+          <button type="button" className="btn-line mt-5" onClick={onRetry}>
+            {t('app.retry')}
+          </button>
+        )}
       </div>
     </div>
   )

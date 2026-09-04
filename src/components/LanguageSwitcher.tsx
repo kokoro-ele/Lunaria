@@ -10,13 +10,20 @@ export default function LanguageSwitcher() {
   const current = i18n.resolvedLanguage === 'zh' ? 'zh' : 'en'
 
   return (
-    <div className="flex items-center gap-px border border-space-line">
+    <div
+      className="flex items-center gap-px border border-space-line"
+      role="group"
+      aria-label={i18n.t('lang.switch')}
+    >
       {LANGS.map((l) => {
         const active = current === l.code
         return (
           <button
             key={l.code}
+            type="button"
             onClick={() => i18n.changeLanguage(l.code)}
+            aria-label={i18n.t(`lang.${l.code}`)}
+            aria-pressed={active}
             className={`px-3 py-1.5 text-xs font-mono tracking-[0.18em] transition-colors ${
               active ? 'text-white bg-white/[0.06]' : 'text-white/40 hover:text-white/80'
             }`}

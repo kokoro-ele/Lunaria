@@ -11,6 +11,7 @@
     "dev": "vite",
     "test": "vitest run",
     "check:seo": "node scripts/check-seo.mjs",
+    "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --base /Lunaria/"
   },

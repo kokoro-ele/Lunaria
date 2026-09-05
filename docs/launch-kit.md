@@ -82,6 +82,8 @@ https://lunaria.timeblind.xyz/en/?utm_source=producthunt&utm_medium=launch&utm_c
 - 第 8–10 天：发布出生月亮/纪念日使用案例，展示真实生成卡片。
 - 第 14 天：在 Search Console 按查询词、页面、国家和设备复盘曝光与点击，决定下一篇指南。
 
+新增或大幅更新页面并部署后，可运行 `npm run submit:indexnow` 通知 Bing 等支持 IndexNow 的搜索引擎。
+
 ## 数据复盘指标
 
 - 搜索：收录页面数、自然曝光、非品牌查询、点击率、排名变化。

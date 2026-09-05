@@ -56,6 +56,7 @@ setText('current-age', language === 'zh' ? `${ageDays.toFixed(1)} 天` : `${ageD
 setText('current-time', formatMoment(now, language))
 setText('next-full', nextFullMoon ? formatMoment(nextFullMoon.date, language) : '—')
 setText('next-new', nextNewMoon ? formatMoment(nextNewMoon.date, language) : '—')
+setText('preview-phase-label', labels[language][phaseKey])
 
 const status = document.getElementById('today-status')
 if (status) {
@@ -77,4 +78,33 @@ if (viewerLink) {
   viewerUrl.searchParams.set('view', 'local')
   viewerUrl.searchParams.set('lang', language)
   viewerLink.href = viewerUrl.toString()
+}
+
+const previewCanvas = document.getElementById('moon-preview') as HTMLCanvasElement | null
+if (previewCanvas) {
+  let started = false
+  const startPreview = () => {
+    if (started) return
+    started = true
+    import('./lightweightMoonPreview')
+      .then(({ mountLightweightMoonPreview }) => {
+        mountLightweightMoonPreview(previewCanvas, phaseAngle)
+      })
+      .catch(() => previewCanvas.parentElement?.classList.add('is-ready'))
+  }
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect()
+          startPreview()
+        }
+      },
+      { rootMargin: '160px' },
+    )
+    observer.observe(previewCanvas)
+  } else {
+    startPreview()
+  }
 }

@@ -272,6 +272,94 @@ details p {
   gap: 1px;
 }
 
+.moon-preview-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(13rem, 0.75fr);
+  min-height: 18rem;
+  margin-top: 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(188, 210, 255, 0.22);
+  background:
+    radial-gradient(circle at 32% 45%, rgba(100, 128, 185, 0.13), transparent 34%),
+    #05070b;
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.moon-preview-link:hover {
+  border-color: rgba(220, 231, 255, 0.5);
+}
+
+.moon-preview-link:focus-visible {
+  outline: 2px solid #bdd0f4;
+  outline-offset: 4px;
+}
+
+.moon-preview-stage {
+  position: relative;
+  display: block;
+  min-height: 18rem;
+}
+
+.moon-preview-stage canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.moon-preview-fallback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(66%, 14rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 33%, rgba(255, 255, 255, 0.2), transparent 9%),
+    radial-gradient(circle at 61% 66%, rgba(0, 0, 0, 0.22), transparent 11%),
+    radial-gradient(circle at 40% 40%, #d9dce2, #777e8a 58%, #161a22 76%);
+  box-shadow: 0 0 4rem rgba(136, 161, 215, 0.12);
+  opacity: 0.7;
+  transform: translate(-50%, -50%);
+  transition: opacity 220ms ease;
+}
+
+.moon-preview-stage.is-ready .moon-preview-fallback {
+  opacity: 0;
+}
+
+.moon-preview-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.moon-preview-copy > span,
+.moon-preview-copy small {
+  color: rgba(220, 228, 242, 0.5);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.moon-preview-copy strong {
+  margin-block: 0.6rem 1.4rem;
+  color: #f4f7fc;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.moon-preview-copy small {
+  color: #bdd0f4;
+}
+
 .live-stat {
   min-width: 0;
   padding: 1.2rem;
@@ -371,6 +459,16 @@ footer {
 
   .live-panel {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .moon-preview-link {
+    grid-template-columns: 1fr;
+  }
+
+  .moon-preview-copy {
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 0;
   }
 }
 

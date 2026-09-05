@@ -40,6 +40,17 @@
       <p class="eyebrow">Live calculation · Updates on every visit</p>
       <h1>What is the Moon phase today?</h1>
       <p class="lead" id="today-status" aria-live="polite">Calculating the current Moon phase and illumination…</p>
+      <a class="moon-preview-link" href="%BASE_URL%" aria-label="Open the full interactive 3D Moon viewer">
+        <span class="moon-preview-stage" aria-hidden="true">
+          <span class="moon-preview-fallback"></span>
+          <canvas id="moon-preview"></canvas>
+        </span>
+        <span class="moon-preview-copy">
+          <span>Live 3D preview</span>
+          <strong id="preview-phase-label">Current Moon</strong>
+          <small>Open the full interactive viewer →</small>
+        </span>
+      </a>
       <div class="live-panel" aria-label="Current lunar data">
         <div class="live-stat live-stat-primary"><span>Current phase</span><strong id="current-phase">—</strong></div>
         <div class="live-stat"><span>Illuminated</span><strong id="current-illumination">—</strong></div>

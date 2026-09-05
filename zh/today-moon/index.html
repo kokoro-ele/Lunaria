@@ -40,6 +40,17 @@
       <p class="eyebrow">实时计算 · 每次访问都会更新</p>
       <h1>今天是什么月相？</h1>
       <p class="lead" id="today-status" aria-live="polite">正在计算当前月相和照亮比例……</p>
+      <a class="moon-preview-link" href="%BASE_URL%" aria-label="打开完整的交互式 3D 月亮查看器">
+        <span class="moon-preview-stage" aria-hidden="true">
+          <span class="moon-preview-fallback"></span>
+          <canvas id="moon-preview"></canvas>
+        </span>
+        <span class="moon-preview-copy">
+          <span>实时 3D 预览</span>
+          <strong id="preview-phase-label">当前月亮</strong>
+          <small>打开完整交互查看器 →</small>
+        </span>
+      </a>
       <div class="live-panel" aria-label="当前月球数据">
         <div class="live-stat live-stat-primary"><span>当前月相</span><strong id="current-phase">—</strong></div>
         <div class="live-stat"><span>月面照亮</span><strong id="current-illumination">—</strong></div>

@@ -29,6 +29,54 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/" />
   </url>
   <url>
+    <loc>https://lunaria.timeblind.xyz/en/moon-phase-today/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/today-moon/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/zh/today-moon/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/today-moon/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/en/moon-phase-calendar-2026/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-calendar-2026/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/2026-moon-calendar/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/zh/2026-moon-calendar/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-calendar-2026/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/2026-moon-calendar/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/en/moon-phase-calendar-2027/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-calendar-2027/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/2027-moon-calendar/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/zh/2027-moon-calendar/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-calendar-2027/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/2027-moon-calendar/" />
+  </url>
+  <url>
     <loc>https://lunaria.timeblind.xyz/en/moon-on-birthday/</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>yearly</changefreq>

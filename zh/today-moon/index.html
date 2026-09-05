@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#04060a" />
+    <title>今日月相查询：实时照亮比例、月龄与满月时间</title>
+    <meta name="description" content="实时查询今日月相、月面照亮比例、月龄，以及下一次满月和新月的准确时间；并可在 Lunaria 中查看 3D 月亮。" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="canonical" href="https://lunaria.timeblind.xyz/zh/today-moon/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/today-moon/" />
+    <link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <link rel="alternate" hreflang="x-default" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%moon.svg" />
+    <meta property="og:type" content="website" /><meta property="og:site_name" content="Lunaria" />
+    <meta property="og:title" content="今日月相查询 — Lunaria" /><meta property="og:description" content="实时查看今天的月相、照亮比例、月龄与下一次满月。" />
+    <meta property="og:url" content="https://lunaria.timeblind.xyz/zh/today-moon/" /><meta property="og:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/about.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          { "@type": "WebPage", "name": "今日月相查询", "url": "https://lunaria.timeblind.xyz/zh/today-moon/", "description": "实时计算当前月相、照亮比例、月龄与即将到来的主要月相。", "inLanguage": "zh-CN", "isPartOf": { "@id": "https://lunaria.timeblind.xyz/#app" } },
+          { "@type": "FAQPage", "mainEntity": [
+            { "@type": "Question", "name": "今天是什么月相？", "acceptedAnswer": { "@type": "Answer", "text": "月相每刻都在缓慢变化。Lunaria 会按当前时刻实时计算月相名称和照亮比例。" } },
+            { "@type": "Question", "name": "世界各地今天的月相一样吗？", "acceptedAnswer": { "@type": "Answer", "text": "在同一时刻，世界各地的月相几乎相同；但当地日期、月升、高度、方向和月面朝向会随观测地点改变。" } },
+            { "@type": "Question", "name": "一个月相周期有多长？", "acceptedAnswer": { "@type": "Answer", "text": "从一次新月到下一次新月的朔望月平均约为 29.53 天。" } }
+          ] }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="%BASE_URL%">LUNARIA</a><nav aria-label="主导航"><a href="%BASE_URL%en/moon-phase-today/" lang="en">English</a><a href="%BASE_URL%zh/">月亮指南</a><a href="%BASE_URL%">打开查看器</a></nav></header>
+    <main><article>
+      <p class="breadcrumbs"><a href="%BASE_URL%zh/">月亮指南</a> / 今日月相</p>
+      <p class="eyebrow">实时计算 · 每次访问都会更新</p>
+      <h1>今天是什么月相？</h1>
+      <p class="lead" id="today-status" aria-live="polite">正在计算当前月相和照亮比例……</p>
+      <div class="live-panel" aria-label="当前月球数据">
+        <div class="live-stat live-stat-primary"><span>当前月相</span><strong id="current-phase">—</strong></div>
+        <div class="live-stat"><span>月面照亮</span><strong id="current-illumination">—</strong></div>
+        <div class="live-stat"><span>月龄</span><strong id="current-age">—</strong></div>
+        <div class="live-stat"><span>设备当地时间</span><strong id="current-time">—</strong></div>
+        <div class="live-stat"><span>下一次满月</span><strong id="next-full">—</strong></div>
+        <div class="live-stat"><span>下一次新月</span><strong id="next-new">—</strong></div>
+      </div>
+      <p class="note">上方时间按你的设备时区显示。月相和照亮比例按当前时刻计算；月亮在当地天空中的位置与旋转方向还需要观测地点。</p>
+      <div class="hero-actions"><a class="button-link" id="today-viewer-link" href="%BASE_URL%?lang=zh">在 3D 中查看今日月亮</a><a class="button-link" href="%BASE_URL%zh/2026-moon-calendar/">2026 月相日历</a></div>
+
+      <section aria-labelledby="meaning-heading"><h2 id="meaning-heading">怎样看懂今日月相</h2><dl class="facts">
+        <div><dt>月相</dt><dd>由太阳、地球和月球的几何关系决定，包括新月、上弦、满月和下弦等名称。</dd></div>
+        <div><dt>照亮比例</dt><dd>面向地球的月面中被太阳照亮的百分比，不等于受天气和日光影响的肉眼可见度。</dd></div>
+        <div><dt>月龄</dt><dd>从上一次天文新月开始经过的时间，以天为单位。</dd></div>
+        <div><dt>盈与亏</dt><dd>“盈”表示月面亮面正在增加并走向满月；“亏”表示亮面正在减少并走向新月。</dd></div>
+      </dl></section>
+
+      <section id="faq" aria-labelledby="faq-heading"><h2 id="faq-heading">今日月相常见问题</h2><div class="faq">
+        <details open><summary>世界各地今天看到的月相一样吗？</summary><p>在同一时刻，不同地点看到的照亮比例几乎相同。但当地日期、月升月落、高度、方位和月面旋转会不同。</p></details>
+        <details><summary>为什么不同日历的照亮百分比有差异？</summary><p>不同服务可能采用不同的取整方式，也可能计算一天中的不同时刻。比较数值前应先比较时间戳。</p></details>
+        <details><summary>满月会持续整个夜晚吗？</summary><p>天文学上的满月是一个精确时刻。前后大约一晚的月亮看上去都很圆，但它的照亮比例一直在变化。</p></details>
+      </div></section>
+      <section aria-labelledby="more-heading"><h2 id="more-heading">查看其他日期</h2><p>可以继续查看 <a href="%BASE_URL%zh/2026-moon-calendar/">2026 年月相日历</a>，还原<a href="%BASE_URL%zh/moon-on-birthday/">出生那天的月亮</a>，或了解<a href="%BASE_URL%zh/guides/lunar-libration/">月球为什么会轻轻“摇摆”</a>。</p></section>
+    </article></main>
+    <footer><a href="%BASE_URL%">3D 查看器</a><span>·</span><a href="%BASE_URL%zh/">月亮指南</a><span>·</span><a href="%BASE_URL%about.html">计算方法</a></footer>
+    <script type="module" src="/src/todayMoon.ts"></script>
+  </body>
+</html>

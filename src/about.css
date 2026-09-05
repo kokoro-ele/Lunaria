@@ -262,6 +262,83 @@ details p {
   padding-left: 1.2rem;
 }
 
+.live-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(188, 210, 255, 0.24);
+  background: rgba(188, 210, 255, 0.12);
+  gap: 1px;
+}
+
+.live-stat {
+  min-width: 0;
+  padding: 1.2rem;
+  background: #070a10;
+}
+
+.live-stat span {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: rgba(220, 228, 242, 0.5);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.live-stat strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #f4f7fc;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.35;
+}
+
+.live-stat-primary {
+  background: linear-gradient(145deg, rgba(113, 146, 210, 0.18), #070a10 72%);
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.phase-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.phase-table th,
+.phase-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.phase-table th {
+  color: rgba(244, 247, 252, 0.84);
+  background: rgba(188, 210, 255, 0.07);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.phase-table td {
+  color: rgba(220, 228, 242, 0.72);
+  font-size: 0.9rem;
+}
+
+.phase-table tr:last-child td {
+  border-bottom: 0;
+}
+
 footer {
   display: flex;
   flex-wrap: wrap;
@@ -290,6 +367,10 @@ footer {
 
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .live-panel {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

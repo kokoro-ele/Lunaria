@@ -36,8 +36,11 @@
         "mainEntity": {
           "@type": "ItemList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "url": "https://lunaria.timeblind.xyz/en/moon-on-birthday/", "name": "Find the Moon on your birthday" },
-            { "@type": "ListItem", "position": 2, "url": "https://lunaria.timeblind.xyz/en/guides/lunar-libration/", "name": "What is lunar libration?" }
+            { "@type": "ListItem", "position": 1, "url": "https://lunaria.timeblind.xyz/en/moon-phase-today/", "name": "Moon phase today" },
+            { "@type": "ListItem", "position": 2, "url": "https://lunaria.timeblind.xyz/en/moon-phase-calendar-2026/", "name": "2026 Moon phase calendar" },
+            { "@type": "ListItem", "position": 3, "url": "https://lunaria.timeblind.xyz/en/moon-phase-calendar-2027/", "name": "2027 Moon phase calendar" },
+            { "@type": "ListItem", "position": 4, "url": "https://lunaria.timeblind.xyz/en/moon-on-birthday/", "name": "Find the Moon on your birthday" },
+            { "@type": "ListItem", "position": 5, "url": "https://lunaria.timeblind.xyz/en/guides/lunar-libration/", "name": "What is lunar libration?" }
           ]
         }
       }
@@ -60,12 +63,24 @@
         <p class="answer"><strong>In short:</strong> choose a local date, time, and location to see the calculated Moon phase, illuminated fraction, age, distance, libration, altitude, azimuth, and local sky orientation.</p>
         <div class="hero-actions">
           <a class="button-link" href="%BASE_URL%">Open the 3D viewer</a>
-          <a class="button-link" href="%BASE_URL%en/moon-on-birthday/">Find a birthday Moon</a>
+          <a class="button-link" href="%BASE_URL%en/moon-phase-today/">Moon phase today</a>
         </div>
 
         <section aria-labelledby="guides-heading">
           <h2 id="guides-heading">Explore Lunaria</h2>
           <div class="cards">
+            <a class="card" href="%BASE_URL%en/moon-phase-today/">
+              <h3>Moon phase today</h3>
+              <p>See the live phase, illuminated fraction, Moon age, and upcoming full and new moons.</p>
+            </a>
+            <a class="card" href="%BASE_URL%en/moon-phase-calendar-2026/">
+              <h3>2026 Moon phase calendar</h3>
+              <p>Plan with exact UTC times for every new moon, quarter, and all 13 full moons.</p>
+            </a>
+            <a class="card" href="%BASE_URL%en/moon-phase-calendar-2027/">
+              <h3>2027 Moon phase calendar</h3>
+              <p>Look ahead to every principal lunar phase and full moon in 2027.</p>
+            </a>
             <a class="card" href="%BASE_URL%en/moon-on-birthday/">
               <h3>The Moon on your birthday</h3>
               <p>Reconstruct a personal date correctly, including the local time and birthplace.</p>
@@ -77,10 +92,6 @@
             <a class="card" href="%BASE_URL%about.html">
               <h3>Methodology and accuracy</h3>
               <p>How Lunaria converts local time and computes phase, position, and local orientation.</p>
-            </a>
-            <a class="card" href="%BASE_URL%">
-              <h3>Interactive 3D viewer</h3>
-              <p>Change the moment and place, inspect the lunar data, and save a keepsake image or result link.</p>
             </a>
           </div>
         </section>

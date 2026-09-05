@@ -7,6 +7,12 @@ Lunaria calculates lunar phase, illuminated fraction, moon age, Earth–Moon dis
 ## Primary pages
 
 - [Interactive Moon viewer](https://lunaria.timeblind.xyz/): Set a date, time, and location; view the Moon in 3D; save an image or result link.
+- [Moon phase today](https://lunaria.timeblind.xyz/en/moon-phase-today/): Live current phase, illumination, lunar age, and next full and new moon.
+- [今日月相](https://lunaria.timeblind.xyz/zh/today-moon/): 实时月相、照亮比例、月龄与下一次满月。
+- [2026 Moon phase calendar](https://lunaria.timeblind.xyz/en/moon-phase-calendar-2026/): Exact UTC instants for every principal phase in 2026.
+- [2026 年月相日历](https://lunaria.timeblind.xyz/zh/2026-moon-calendar/): 按北京时间列出 2026 年的新月、上下弦和满月。
+- [2027 Moon phase calendar](https://lunaria.timeblind.xyz/en/moon-phase-calendar-2027/): Exact UTC instants for every principal phase in 2027.
+- [2027 年月相日历](https://lunaria.timeblind.xyz/zh/2027-moon-calendar/): 按北京时间列出 2027 年的新月、上下弦和满月。
 - [English Moon guides](https://lunaria.timeblind.xyz/en/): Overview and English topic index.
 - [中文月亮指南](https://lunaria.timeblind.xyz/zh/): 中文介绍与主题索引。
 - [Moon on your birthday](https://lunaria.timeblind.xyz/en/moon-on-birthday/): How to reconstruct a personal historical Moon.

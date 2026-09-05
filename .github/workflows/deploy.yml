@@ -36,6 +36,9 @@ jobs:
       - name: Check SEO metadata
         run: npm run check:seo
 
+      - name: Check internal links
+        run: npm run check:links
+
       - name: Build
         run: npm run build
         env:

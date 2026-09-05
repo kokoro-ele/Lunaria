@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#04060a" />
+    <title>Moon Phase Today: Live Illumination & Moon Age</title>
+    <meta name="description" content="See today's Moon phase, current illumination, lunar age, and the exact time of the next full moon and new moon, calculated live by Lunaria." />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="canonical" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/today-moon/" />
+    <link rel="alternate" hreflang="x-default" href="https://lunaria.timeblind.xyz/en/moon-phase-today/" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%moon.svg" />
+    <meta property="og:type" content="website" /><meta property="og:site_name" content="Lunaria" />
+    <meta property="og:title" content="Moon Phase Today — Lunaria" /><meta property="og:description" content="Live Moon phase, illumination, lunar age, and upcoming principal phases." />
+    <meta property="og:url" content="https://lunaria.timeblind.xyz/en/moon-phase-today/" /><meta property="og:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/about.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          { "@type": "WebPage", "name": "Moon Phase Today", "url": "https://lunaria.timeblind.xyz/en/moon-phase-today/", "description": "A live calculation of the current Moon phase, illumination, lunar age, and upcoming principal phases.", "inLanguage": "en", "isPartOf": { "@id": "https://lunaria.timeblind.xyz/#app" } },
+          { "@type": "FAQPage", "mainEntity": [
+            { "@type": "Question", "name": "What is the Moon phase today?", "acceptedAnswer": { "@type": "Answer", "text": "The Moon phase changes continuously. Lunaria calculates the current phase and illuminated fraction live from the present instant." } },
+            { "@type": "Question", "name": "Is the Moon phase the same everywhere today?", "acceptedAnswer": { "@type": "Answer", "text": "At one instant the phase is almost the same worldwide, while local date, moonrise, altitude, direction, and disk orientation depend on the observer's location." } },
+            { "@type": "Question", "name": "How often does the Moon phase change?", "acceptedAnswer": { "@type": "Answer", "text": "The phase changes continuously through a synodic month averaging about 29.53 days." } }
+          ] }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="%BASE_URL%">LUNARIA</a><nav aria-label="Primary navigation"><a href="%BASE_URL%zh/today-moon/" lang="zh-CN">中文</a><a href="%BASE_URL%en/">Guides</a><a href="%BASE_URL%">Open viewer</a></nav></header>
+    <main><article>
+      <p class="breadcrumbs"><a href="%BASE_URL%en/">Moon guides</a> / Moon phase today</p>
+      <p class="eyebrow">Live calculation · Updates on every visit</p>
+      <h1>What is the Moon phase today?</h1>
+      <p class="lead" id="today-status" aria-live="polite">Calculating the current Moon phase and illumination…</p>
+      <div class="live-panel" aria-label="Current lunar data">
+        <div class="live-stat live-stat-primary"><span>Current phase</span><strong id="current-phase">—</strong></div>
+        <div class="live-stat"><span>Illuminated</span><strong id="current-illumination">—</strong></div>
+        <div class="live-stat"><span>Moon age</span><strong id="current-age">—</strong></div>
+        <div class="live-stat"><span>Your local time</span><strong id="current-time">—</strong></div>
+        <div class="live-stat"><span>Next full moon</span><strong id="next-full">—</strong></div>
+        <div class="live-stat"><span>Next new moon</span><strong id="next-new">—</strong></div>
+      </div>
+      <p class="note">Times above are displayed in your device's local time zone. Phase and illumination are calculated for the current instant; the apparent rotation and position in your sky require a location.</p>
+      <div class="hero-actions"><a class="button-link" id="today-viewer-link" href="%BASE_URL%?lang=en">See today's Moon in 3D</a><a class="button-link" href="%BASE_URL%en/moon-phase-calendar-2026/">2026 Moon calendar</a></div>
+
+      <section aria-labelledby="meaning-heading"><h2 id="meaning-heading">How to read today's Moon</h2><dl class="facts">
+        <div><dt>Phase</dt><dd>The named part of the lunar cycle, determined by the changing Sun–Earth–Moon geometry.</dd></div>
+        <div><dt>Illumination</dt><dd>The percentage of the visible lunar disk lit by the Sun. It is not the same as visibility through weather or daylight.</dd></div>
+        <div><dt>Moon age</dt><dd>Elapsed time since the preceding astronomical new moon, measured in days.</dd></div>
+        <div><dt>Waxing or waning</dt><dd>Waxing means illumination is increasing toward full moon; waning means it is decreasing toward new moon.</dd></div>
+      </dl></section>
+
+      <section id="faq" aria-labelledby="faq-heading"><h2 id="faq-heading">Questions about today's Moon</h2><div class="faq">
+        <details open><summary>Is today's Moon phase the same everywhere?</summary><p>At the same instant, observers around Earth see almost the same illuminated fraction. Their local calendar date, moonrise and moonset, altitude, compass direction, and apparent disk rotation can differ.</p></details>
+        <details><summary>Why might another calendar show a different percentage?</summary><p>Percentages differ slightly when services round differently or calculate for different times of day. Compare timestamps before comparing values.</p></details>
+        <details><summary>Does a full moon last all night?</summary><p>Full moon is an exact astronomical instant. The Moon looks essentially full for roughly a night on either side, but its illumination is continuously changing.</p></details>
+      </div></section>
+      <section aria-labelledby="more-heading"><h2 id="more-heading">Plan another Moon view</h2><p>Use the <a href="%BASE_URL%en/moon-phase-calendar-2026/">2026 Moon phase calendar</a>, reconstruct <a href="%BASE_URL%en/moon-on-birthday/">the Moon on your birthday</a>, or learn <a href="%BASE_URL%en/guides/lunar-libration/">why the Moon appears to rock</a>.</p></section>
+    </article></main>
+    <footer><a href="%BASE_URL%">3D viewer</a><span>·</span><a href="%BASE_URL%en/">Moon guides</a><span>·</span><a href="%BASE_URL%about.html">Methodology</a></footer>
+    <script type="module" src="/src/todayMoon.ts"></script>
+  </body>
+</html>

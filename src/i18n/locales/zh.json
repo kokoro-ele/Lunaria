@@ -38,7 +38,8 @@
     "closeDrawer": "关闭控制台",
     "collapse": "收起",
     "expand": "展开",
-    "methodology": "计算方法与常见问题"
+    "methodology": "计算方法与常见问题",
+    "guides": "月亮指南"
   },
   "moon": {
     "panelTitle": "月相数据",
@@ -76,6 +77,10 @@
     "saveHint": "在分享菜单中选择「存储到照片」即可保存到相册",
     "rendering": "合成中…",
     "failed": "图片生成失败，请重试。",
+    "copyLink": "复制结果链接",
+    "linkCopied": "链接已复制",
+    "shareLink": "分享链接",
+    "linkFailed": "链接复制失败。",
     "moonPreviewAlt": "纪念卡片中的月亮效果预览",
     "close": "关闭",
     "presetList": {

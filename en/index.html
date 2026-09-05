@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#04060a" />
+    <title>Moon Phase Viewer & Astronomy Guides — Lunaria</title>
+    <meta name="description" content="Use Lunaria's free 3D Moon phase viewer and learn how lunar phase, illumination, libration, altitude, azimuth, and sky orientation are calculated." />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="canonical" href="https://lunaria.timeblind.xyz/en/" />
+    <link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/" />
+    <link rel="alternate" hreflang="x-default" href="https://lunaria.timeblind.xyz/" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%moon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Lunaria" />
+    <meta property="og:title" content="Moon Phase Viewer & Astronomy Guides — Lunaria" />
+    <meta property="og:description" content="Explore the Moon for any moment and understand the astronomy behind the view." />
+    <meta property="og:url" content="https://lunaria.timeblind.xyz/en/" />
+    <meta property="og:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/about.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Lunaria Moon Viewer and Astronomy Guides",
+        "url": "https://lunaria.timeblind.xyz/en/",
+        "description": "A free 3D Moon phase viewer with clear guides to lunar phase, libration, and local sky orientation.",
+        "inLanguage": "en",
+        "isPartOf": { "@id": "https://lunaria.timeblind.xyz/#app" },
+        "mainEntity": {
+          "@type": "ItemList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "url": "https://lunaria.timeblind.xyz/en/moon-on-birthday/", "name": "Find the Moon on your birthday" },
+            { "@type": "ListItem", "position": 2, "url": "https://lunaria.timeblind.xyz/en/guides/lunar-libration/", "name": "What is lunar libration?" }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="%BASE_URL%">LUNARIA</a>
+      <nav aria-label="Primary navigation">
+        <a href="%BASE_URL%zh/" lang="zh-CN">中文</a>
+        <a href="%BASE_URL%about.html">Methodology</a>
+        <a href="%BASE_URL%">Open viewer</a>
+      </nav>
+    </header>
+    <main>
+      <article>
+        <p class="eyebrow">Moon viewer · Plain-language astronomy</p>
+        <h1>See the Moon for any date, time, and place</h1>
+        <p class="lead">Lunaria reconstructs the Moon as it appears from a chosen place on Earth. The interactive viewer combines lunar phase with the observer-dependent altitude, compass direction, and apparent rotation of the disk.</p>
+        <p class="answer"><strong>In short:</strong> choose a local date, time, and location to see the calculated Moon phase, illuminated fraction, age, distance, libration, altitude, azimuth, and local sky orientation.</p>
+        <div class="hero-actions">
+          <a class="button-link" href="%BASE_URL%">Open the 3D viewer</a>
+          <a class="button-link" href="%BASE_URL%en/moon-on-birthday/">Find a birthday Moon</a>
+        </div>
+
+        <section aria-labelledby="guides-heading">
+          <h2 id="guides-heading">Explore Lunaria</h2>
+          <div class="cards">
+            <a class="card" href="%BASE_URL%en/moon-on-birthday/">
+              <h3>The Moon on your birthday</h3>
+              <p>Reconstruct a personal date correctly, including the local time and birthplace.</p>
+            </a>
+            <a class="card" href="%BASE_URL%en/guides/lunar-libration/">
+              <h3>Lunar libration explained</h3>
+              <p>Why the Moon seems to rock and how we can glimpse about 59% of its surface over time.</p>
+            </a>
+            <a class="card" href="%BASE_URL%about.html">
+              <h3>Methodology and accuracy</h3>
+              <p>How Lunaria converts local time and computes phase, position, and local orientation.</p>
+            </a>
+            <a class="card" href="%BASE_URL%">
+              <h3>Interactive 3D viewer</h3>
+              <p>Change the moment and place, inspect the lunar data, and save a keepsake image or result link.</p>
+            </a>
+          </div>
+        </section>
+
+        <section aria-labelledby="difference-heading">
+          <h2 id="difference-heading">What changes with location?</h2>
+          <p>The phase and illuminated fraction are almost the same everywhere at one instant. Your location does change where the Moon sits relative to the horizon, the direction you face to see it, and how the lunar disk is rotated relative to “up.” That is why photographs taken at the same moment from different hemispheres can look rotated, even though they show the same phase.</p>
+          <dl class="facts">
+            <div><dt>Mostly global</dt><dd>Phase, illuminated fraction, lunar age, and Earth–Moon distance at a given instant.</dd></div>
+            <div><dt>Observer-dependent</dt><dd>Altitude, azimuth, horizon status, local time, and apparent disk orientation.</dd></div>
+          </dl>
+        </section>
+
+        <section aria-labelledby="trust-heading">
+          <h2 id="trust-heading">Transparent calculations</h2>
+          <p>Lunaria uses the open-source Astronomy Engine library for ephemeris calculations, topocentric positions, lunar illumination, distance, and libration. Coordinates are mapped to an IANA time zone so a selected wall-clock time can be interpreted with the relevant daylight-saving rule.</p>
+          <p class="note">The visualization is intended for education and personal keepsakes. It does not model terrain, buildings, clouds, atmospheric transparency, or daylight brightness and should not replace professional navigation or observatory software.</p>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <a href="%BASE_URL%">Moon viewer</a><span>·</span><a href="%BASE_URL%about.html">Methodology</a><span>·</span><a href="https://github.com/kokoro-ele/Lunaria">Open source</a>
+    </footer>
+  </body>
+</html>

@@ -14,6 +14,9 @@
     />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <link rel="canonical" href="https://lunaria.timeblind.xyz/" />
+    <link rel="alternate" hreflang="x-default" href="https://lunaria.timeblind.xyz/" />
+    <link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/" />
     <link
       rel="sitemap"
       type="application/xml"
@@ -87,7 +90,15 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <noscript>
+        <main>
+          <h1>Lunaria interactive Moon phase viewer</h1>
+          <p>View the Moon's phase, illumination, libration, altitude, azimuth, and local orientation for any date, time, and place.</p>
+          <p><a href="%BASE_URL%en/">English guide</a> · <a href="%BASE_URL%zh/">中文指南</a> · <a href="%BASE_URL%about.html">Methodology</a></p>
+        </main>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

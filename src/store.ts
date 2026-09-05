@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { MoonTextureQuality } from './lib/moonTexture'
 import { timezoneFor, wallTimeAt } from './lib/timezone'
+import { parseShareState } from './lib/shareUrl'
 
 export interface AppState {
   /** Local date at the selected location, format YYYY-MM-DD */
@@ -30,14 +31,18 @@ const initialWallTime = wallTimeAt(
   new Date(),
   timezoneFor(DEFAULT_LATITUDE, DEFAULT_LONGITUDE),
 )
+const sharedState =
+  typeof window === 'undefined' ? {} : parseShareState(window.location.search)
+const hasSharedLocation =
+  sharedState.latitude !== undefined && sharedState.longitude !== undefined
 
 export const useStore = create<AppState>((set) => ({
-  date: initialWallTime.date,
-  time: initialWallTime.time,
-  latitude: DEFAULT_LATITUDE,
-  longitude: DEFAULT_LONGITUDE,
-  locationSelected: false,
-  tiltCorrection: true,
+  date: sharedState.date ?? initialWallTime.date,
+  time: sharedState.time ?? initialWallTime.time,
+  latitude: sharedState.latitude ?? DEFAULT_LATITUDE,
+  longitude: sharedState.longitude ?? DEFAULT_LONGITUDE,
+  locationSelected: hasSharedLocation,
+  tiltCorrection: sharedState.tiltCorrection ?? true,
   textureQuality: '2k',
 
   setDate: (date) => set({ date }),

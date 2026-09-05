@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#04060a" />
+    <title>查询出生那天的月亮和月相 — Lunaria</title>
+    <meta name="description" content="输入出生日期、当地时间和出生地，查询出生那天的月相、照亮比例、月龄、距离与天空朝向，并保存月亮纪念卡。" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="canonical" href="https://lunaria.timeblind.xyz/zh/moon-on-birthday/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/moon-on-birthday/" />
+    <link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-on-birthday/" />
+    <link rel="alternate" hreflang="x-default" href="https://lunaria.timeblind.xyz/en/moon-on-birthday/" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%moon.svg" />
+    <meta property="og:type" content="article" /><meta property="og:site_name" content="Lunaria" />
+    <meta property="og:title" content="查询出生那天的月亮和月相" />
+    <meta property="og:description" content="还原出生日期、时间和地点对应的月亮，并保存或分享结果。" />
+    <meta property="og:url" content="https://lunaria.timeblind.xyz/zh/moon-on-birthday/" /><meta property="og:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://lunaria.timeblind.xyz/og-cover.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" /><link rel="stylesheet" href="/src/about.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          { "@type": "HowTo", "name": "怎样查询出生那天的月亮", "description": "用出生日期、当地时间和出生地在 Lunaria 中还原月亮。", "inLanguage": "zh-CN", "step": [
+            { "@type": "HowToStep", "name": "输入日期", "text": "在 Lunaria 查看器中选择出生日期。" },
+            { "@type": "HowToStep", "name": "设置当地时间", "text": "输入出生地的当地钟表时间；不知道准确时间时可以使用中午十二点。" },
+            { "@type": "HowToStep", "name": "选择出生地", "text": "在地球仪上选择出生地，让 Lunaria 应用相应时区和当地天空朝向。" },
+            { "@type": "HowToStep", "name": "查看并保存", "text": "查看月相与照亮比例，然后保存图片或复制结果链接。" }
+          ]},
+          { "@type": "FAQPage", "mainEntity": [
+            { "@type": "Question", "name": "查询出生月相需要准确出生时间吗？", "acceptedAnswer": { "@type": "Answer", "text": "不一定。月亮照亮比例在一天内缓慢变化，只用日期也能得到有参考价值的月相。准确时间和地点主要用于改善高度、方向和月面朝向的计算。" } },
+            { "@type": "Question", "name": "同一天出生的人看到的出生月亮会不同吗？", "acceptedAnswer": { "@type": "Answer", "text": "月相通常接近，但不同时间和地点会带来不同的高度角、方位角、地平线状态和月面旋转。" } }
+          ]}
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="%BASE_URL%">LUNARIA</a><nav aria-label="主导航"><a href="%BASE_URL%en/moon-on-birthday/" lang="en">English</a><a href="%BASE_URL%zh/">指南</a><a href="%BASE_URL%">打开查看器</a></nav></header>
+    <main><article>
+      <p class="breadcrumbs"><a href="%BASE_URL%zh/">月亮指南</a> / 出生月亮</p>
+      <p class="eyebrow">个人天文 · 四步查询</p>
+      <h1>你出生那天的月亮是什么样？</h1>
+      <p class="lead">在 Lunaria 中输入出生日期、当地时间和出生地，就能还原当时的月相，以及月亮在当地天空中的计算朝向。</p>
+      <p class="answer"><strong>只想知道大致月相，不一定需要准确出生时间。</strong>月亮的照亮比例会缓慢变化；准确时间和地点主要影响高度角、方向、是否位于地平线上方，以及月面的精确旋转。</p>
+      <div class="hero-actions"><a class="button-link" href="%BASE_URL%?lang=zh">查询我的出生月亮</a></div>
+      <section aria-labelledby="steps-heading"><h2 id="steps-heading">怎样查询</h2><ol class="steps">
+        <li><strong>选择出生日期。</strong>使用出生地当地记录的公历日期。</li>
+        <li><strong>输入当地时间。</strong>不知道具体时刻时可用 12:00；月相仍有参考价值，但天空位置不代表实际出生时刻。</li>
+        <li><strong>选择出生地点。</strong>在地球仪上点击城市或附近区域。Lunaria 会根据坐标确定时区，并使用浏览器可用的历史夏令时规则。</li>
+        <li><strong>查看、保存、分享。</strong>阅读月相、照亮比例、月龄、距离与当地位置，生成纪念图片，或复制能恢复同一设置的链接。</li>
+      </ol></section>
+      <section aria-labelledby="meaning-heading"><h2 id="meaning-heading">结果分别代表什么</h2><dl class="facts">
+        <div><dt>月相</dt><dd>娥眉月、上弦月、满月、亏凸月等常见阶段名称。</dd></div>
+        <div><dt>照亮比例</dt><dd>当时面向地球的月面中，被太阳照亮的百分比。</dd></div>
+        <div><dt>月龄</dt><dd>从上一个天文新月开始经过的时间。</dd></div>
+        <div><dt>当地视角</dt><dd>月亮是否升起、位于天空何处，以及亮面相对当地“上方”的旋转。</dd></div>
+      </dl></section>
+      <section id="faq" aria-labelledby="faq-heading"><h2 id="faq-heading">常见问题</h2><div class="faq">
+        <details open><summary>必须知道准确出生时间吗？</summary><p>不必。仅凭日期就能得到有参考价值的月相和照亮比例。不知道时间时可用中午十二点，但不要把高度角和方向当作真实出生时刻的天空记录。</p></details>
+        <details><summary>同一天出生的人结果会不同吗？</summary><p>月相通常很接近，但时刻或地点不同，可能改变当地日历日期、地平线状态、观看方向和月面旋转。</p></details>
+        <details><summary>出生月亮是占星解读吗？</summary><p>不是。Lunaria 只展示由太阳、地球、月亮、时间和观测地点计算出的天文量，不赋予性格含义，也不进行预测。</p></details>
+      </div></section>
+      <section aria-labelledby="next-heading"><h2 id="next-heading">继续了解</h2><p>阅读<a href="%BASE_URL%zh/guides/lunar-libration/">月亮为什么会轻轻“摇摆”</a>，或查看 Lunaria 的<a href="%BASE_URL%about.html">计算方法与精度限制</a>。</p></section>
+    </article></main>
+    <footer><a href="%BASE_URL%">打开查看器</a><span>·</span><a href="%BASE_URL%zh/">月亮指南</a><span>·</span><a href="https://github.com/kokoro-ele/Lunaria">源代码</a></footer>
+  </body>
+</html>

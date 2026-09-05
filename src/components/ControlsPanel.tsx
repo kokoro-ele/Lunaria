@@ -143,6 +143,13 @@ export default function ControlsPanel({
       >
         {t('controls.methodology')}
       </a>
+      <span className="mx-2 text-white/20" aria-hidden="true">·</span>
+      <a
+        href={`${import.meta.env.BASE_URL}${i18n.resolvedLanguage === 'zh' ? 'zh/' : 'en/'}`}
+        className="mt-3 inline-flex text-[10px] font-mono uppercase tracking-widest2 text-white/35 underline-offset-4 transition-colors hover:text-white/75 hover:underline"
+      >
+        {t('controls.guides')}
+      </a>
     </div>
   )
 

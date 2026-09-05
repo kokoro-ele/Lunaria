@@ -129,6 +129,75 @@ dd {
   color: rgba(235, 241, 252, 0.9);
 }
 
+.answer {
+  max-width: 70ch;
+  margin-top: 1.5rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid rgba(188, 210, 255, 0.55);
+  color: rgba(235, 241, 252, 0.9);
+  font-size: 1.05rem;
+}
+
+.breadcrumbs {
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.38);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.button-link {
+  display: inline-flex;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(188, 210, 255, 0.35);
+  color: #eef3ff;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.button-link:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.card {
+  padding: 1.4rem;
+  background: #070a10;
+}
+
+.card h3 {
+  margin: 0 0 0.65rem;
+}
+
+.card p {
+  margin: 0;
+}
+
+.note {
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(220, 228, 242, 0.62);
+  font-size: 0.92rem;
+}
+
 section {
   margin-top: clamp(4.5rem, 10vw, 7rem);
   scroll-margin-top: 2rem;
@@ -216,6 +285,10 @@ footer {
   }
 
   .facts {
+    grid-template-columns: 1fr;
+  }
+
+  .cards {
     grid-template-columns: 1fr;
   }
 }

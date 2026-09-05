@@ -2,7 +2,13 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { snapshotMoon } from '../lib/capture'
 import { SHARE_CARD } from '../lib/shareCardLayout'
-import { composeShareCard, shareOrDownloadImage, supportsImageShare } from '../lib/share'
+import {
+  composeShareCard,
+  copyText,
+  shareOrDownloadImage,
+  sharePage,
+  supportsImageShare,
+} from '../lib/share'
 import type { MoonView } from '../lib/astronomy'
 
 const PRESETS = ['birth', 'metYou', 'yours', 'sameMoon', 'anniversary', 'firstDay']
@@ -13,6 +19,7 @@ interface ShareDialogProps {
   view: MoonView
   dateLabel: string
   locationLabel: string
+  shareUrl: string
 }
 
 export default function ShareDialog({
@@ -21,12 +28,14 @@ export default function ShareDialog({
   view,
   dateLabel,
   locationLabel,
+  shareUrl,
 }: ShareDialogProps) {
   const { t } = useTranslation()
   const [message, setMessage] = useState('')
   const [moonImg, setMoonImg] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [saveError, setSaveError] = useState(false)
+  const [linkStatus, setLinkStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
   const [canShare, setCanShare] = useState(false)
   const titleId = useId()
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -114,6 +123,16 @@ export default function ShareDialog({
     } finally {
       setBusy(false)
     }
+  }
+
+  const handleCopyLink = async () => {
+    setLinkStatus('idle')
+    setLinkStatus((await copyText(shareUrl)) ? 'copied' : 'failed')
+  }
+
+  const handleShareLink = async () => {
+    const shared = await sharePage(t('app.metaTitle'), shareUrl)
+    if (!shared) await handleCopyLink()
   }
 
   return (
@@ -232,6 +251,19 @@ export default function ShareDialog({
           >
             {busy ? t('share.rendering') : canShare ? t('share.save') : t('share.download')}
           </button>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <button type="button" onClick={handleCopyLink} className="btn-line w-full px-2">
+              {linkStatus === 'copied' ? t('share.linkCopied') : t('share.copyLink')}
+            </button>
+            <button type="button" onClick={handleShareLink} className="btn-line w-full px-2">
+              {t('share.shareLink')}
+            </button>
+          </div>
+          {linkStatus === 'failed' && (
+            <p className="mt-2 text-center text-[10px] text-red-300/80" role="alert">
+              {t('share.linkFailed')}
+            </p>
+          )}
           {saveError && (
             <p className="mt-2 text-center text-[10px] leading-relaxed text-red-300/80" role="alert">
               {t('share.failed')}

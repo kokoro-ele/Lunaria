@@ -56,7 +56,9 @@
 | **地平线状态** | 显示月球高度角、方位角，并在月亮位于当地地平线下方时提示 |
 | **按需高清纹理** | 2K 快速启动，4K/8K 由用户按需载入；CDN 失败自动回退同源资源 |
 | **分享卡片** | 导出 PNG，含月亮快照、日期、地点、月相与留言；内置「你出生那天的月亮」等候选文案 |
+| **结果链接** | 复制或系统分享可恢复日期、时间、地点、语言和视角设置的链接 |
 | **中英双语** | 跟随浏览器语言，右上角可切换 English / 中文 |
+| **可索引知识页** | 独立中英文入口、出生月亮与天平动指南，含 hreflang、结构化数据与来源 |
 | **线条风 UI** | 细描边、等宽字体、留白与微光，控制面板可折叠 |
 
 ---
@@ -138,7 +140,7 @@ npm run preview
    - 关闭该选项后，可拖拽自由旋转月球，从任意角度观察表面细节。
 
 4. **分享**  
-   点击右上角「分享 / Share」，选择或编辑留言，下载 PNG 纪念卡片。
+   点击右上角「分享 / Share」，选择或编辑留言，下载 PNG 纪念卡片；也可以复制或系统分享能恢复当前结果的链接。
 
 ---
 
@@ -168,6 +170,8 @@ Lunaria/
 ├── docs/
 │   └── preview.png        # 预览图
 ├── about.html              # 可索引的计算方法与 FAQ
+├── en/                     # 英文入口与月亮知识页
+├── zh/                     # 中文入口与月亮知识页
 ├── src/
 │   ├── components/        # UI 与 3D 组件
 │   │   ├── MoonScene.tsx  # 主场景 (Canvas)
@@ -264,7 +268,9 @@ Lunaria/
 | **Horizon status** | Reports altitude and azimuth and explains when the Moon is below the local horizon |
 | **On-demand textures** | Fast 2K bootstrap; 4K/8K load on request with same-origin fallback |
 | **Share cards** | Export PNG with Moon snapshot, date, location, phase, and message; preset suggestions included |
+| **Shareable result links** | Copy or share a URL that restores date, time, place, language, and viewing mode |
 | **i18n** | English / 中文, auto-detected; switchable in the header |
+| **Indexable guides** | Separate English and Chinese hubs plus birthday-Moon and lunar-libration guides |
 | **Line-style UI** | Thin borders, monospace accents, collapsible control panel |
 
 ---
@@ -315,7 +321,7 @@ VITE_BASE=/Lunaria/ npm run build && npm run preview
 1. **Choose a location** — On first load, a prompt asks you to spin the globe and pick a place. Click anywhere on the wireframe globe in the control panel.
 2. **Set date & time** — Or press **Now** to jump to the current moment. Times are interpreted as **local time at the selected place**.
 3. **View the Moon** — With **Local viewing angle** on (default), the Moon is locked to the physically correct tilt for your location. Turn it off to drag and freely orbit the Moon.
-4. **Share** — Click **Share**, edit your message, and download a PNG keepsake card.
+4. **Share** — Click **Share** to download a PNG keepsake card, copy a result link, or open the system share sheet.
 
 ---
 

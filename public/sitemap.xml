@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://lunaria.timeblind.xyz/</loc>
     <lastmod>2026-09-05</lastmod>
@@ -11,5 +11,53 @@
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/en/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/zh/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/en/moon-on-birthday/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-on-birthday/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/moon-on-birthday/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/zh/moon-on-birthday/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/moon-on-birthday/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/moon-on-birthday/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/en/guides/lunar-libration/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/guides/lunar-libration/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/guides/lunar-libration/" />
+  </url>
+  <url>
+    <loc>https://lunaria.timeblind.xyz/zh/guides/lunar-libration/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lunaria.timeblind.xyz/en/guides/lunar-libration/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lunaria.timeblind.xyz/zh/guides/lunar-libration/" />
   </url>
 </urlset>

@@ -1,0 +1,20 @@
+# Lunaria
+
+> Lunaria is a free, open-source interactive 3D Moon viewer for any date, local time, and place on Earth.
+
+Lunaria calculates lunar phase, illuminated fraction, moon age, Earth–Moon distance, libration, altitude, azimuth, horizon status, and the disk orientation relative to the observer's local sky. It uses Astronomy Engine for ephemeris calculations and IANA time-zone data for local-time conversion. It is intended for education and personal keepsakes, not professional navigation.
+
+## Primary pages
+
+- [Interactive Moon viewer](https://lunaria.timeblind.xyz/): Set a date, time, and location; view the Moon in 3D; save an image or result link.
+- [English Moon guides](https://lunaria.timeblind.xyz/en/): Overview and English topic index.
+- [中文月亮指南](https://lunaria.timeblind.xyz/zh/): 中文介绍与主题索引。
+- [Moon on your birthday](https://lunaria.timeblind.xyz/en/moon-on-birthday/): How to reconstruct a personal historical Moon.
+- [What is lunar libration?](https://lunaria.timeblind.xyz/en/guides/lunar-libration/): Plain-language explanation with sources.
+- [Methodology and FAQ](https://lunaria.timeblind.xyz/about.html): Calculation flow, definitions, accuracy, limitations, and sources.
+
+## Sources and code
+
+- [Open-source repository](https://github.com/kokoro-ele/Lunaria)
+- [Astronomy Engine](https://github.com/cosinekitty/astronomy)
+- [NASA Moon phases](https://science.nasa.gov/moon/moon-phases/)

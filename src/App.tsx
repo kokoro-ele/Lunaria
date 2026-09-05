@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useStore } from './store'
 import { computeMoonView } from './lib/astronomy'
 import { localWallTimeToUtc, timezoneFor, offsetLabel, wallTimeAt } from './lib/timezone'
+import { buildShareUrl } from './lib/shareUrl'
 import MoonScene from './components/MoonScene'
 import ControlsPanel from './components/ControlsPanel'
 import MoonReadout from './components/MoonReadout'
@@ -99,6 +100,19 @@ export default function App() {
   const locationLabel = `${Math.abs(latitude).toFixed(1)}°${
     latitude >= 0 ? 'N' : 'S'
   } ${Math.abs(longitude).toFixed(1)}°${longitude >= 0 ? 'E' : 'W'}`
+
+  const shareUrl = useMemo(
+    () =>
+      buildShareUrl({
+        date,
+        time,
+        latitude,
+        longitude,
+        tiltCorrection,
+        language: i18n.resolvedLanguage === 'zh' ? 'zh' : 'en',
+      }),
+    [date, i18n.resolvedLanguage, latitude, longitude, tiltCorrection, time],
+  )
 
   const handleNow = () => {
     const now = wallTimeAt(new Date(), timeZone)
@@ -230,6 +244,7 @@ export default function App() {
             view={view}
             dateLabel={dateLabel}
             locationLabel={locationLabel}
+            shareUrl={shareUrl}
           />
         </Suspense>
       )}

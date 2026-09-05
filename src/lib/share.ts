@@ -56,3 +56,41 @@ export function downloadDataUrl(dataUrl: string, filename: string) {
   a.click()
   document.body.removeChild(a)
 }
+
+/** Copy a result URL, including a fallback for older mobile browsers. */
+export async function copyText(value: string): Promise<boolean> {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(value)
+      return true
+    } catch {
+      // Fall through to the selection-based method when clipboard permission is denied.
+    }
+  }
+
+  const textarea = document.createElement('textarea')
+  textarea.value = value
+  textarea.setAttribute('readonly', '')
+  textarea.style.position = 'fixed'
+  textarea.style.opacity = '0'
+  document.body.appendChild(textarea)
+  try {
+    textarea.select()
+    return document.execCommand('copy')
+  } catch {
+    return false
+  } finally {
+    document.body.removeChild(textarea)
+  }
+}
+
+/** Open the native share sheet for a result link when supported. */
+export async function sharePage(title: string, url: string): Promise<boolean> {
+  if (!navigator.share) return false
+  try {
+    await navigator.share({ title, url })
+    return true
+  } catch (error) {
+    return error instanceof DOMException && error.name === 'AbortError'
+  }
+}

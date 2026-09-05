@@ -14,6 +14,12 @@ export default defineConfig({
       input: {
         app: resolve(import.meta.dirname, 'index.html'),
         about: resolve(import.meta.dirname, 'about.html'),
+        en: resolve(import.meta.dirname, 'en/index.html'),
+        enBirthdayMoon: resolve(import.meta.dirname, 'en/moon-on-birthday/index.html'),
+        enLunarLibration: resolve(import.meta.dirname, 'en/guides/lunar-libration/index.html'),
+        zh: resolve(import.meta.dirname, 'zh/index.html'),
+        zhBirthdayMoon: resolve(import.meta.dirname, 'zh/moon-on-birthday/index.html'),
+        zhLunarLibration: resolve(import.meta.dirname, 'zh/guides/lunar-libration/index.html'),
       },
     },
   },

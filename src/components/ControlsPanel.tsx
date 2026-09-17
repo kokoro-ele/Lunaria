@@ -1,6 +1,7 @@
 import { lazy, Suspense, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ScaledToFit from './ScaledToFit'
+import LocationSearch from './LocationSearch'
 
 const GlobePicker = lazy(() => import('./GlobePicker'))
 
@@ -154,13 +155,16 @@ export default function ControlsPanel({
   )
 
   const body = expandUp ? (
-    <div className="border-b border-space-lineSoft">
+    <div className="max-h-[calc(100dvh-10rem)] overflow-y-auto overscroll-contain border-b border-space-lineSoft">
       <ScaledToFit designWidth={300}>
         <div className="w-[300px] px-3 pb-2 pt-3">
           {formSection}
         </div>
       </ScaledToFit>
-      <div className={`px-3 ${expandUp ? 'py-2' : ''}`}>{globeBox}</div>
+      <div className="px-3 py-2">
+        <LocationSearch lat={lat} lon={lon} onPick={onPick} />
+        {globeBox}
+      </div>
       <ScaledToFit designWidth={300}>
         <div className="w-[300px] px-3 pb-3">{metaSection}</div>
       </ScaledToFit>
@@ -181,6 +185,7 @@ export default function ControlsPanel({
             <span className="h-1.5 w-1.5 animate-pulseSoft rounded-full bg-space-glow" />
           )}
         </div>
+        <LocationSearch lat={lat} lon={lon} onPick={onPick} />
         {globeBox}
       </div>
       <div className="mt-4">{metaSection}</div>

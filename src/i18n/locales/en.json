@@ -29,7 +29,7 @@
     "coordinates": "Coordinates",
     "pickOnGlobe": "Click the globe to choose a place",
     "loadingGlobe": "Loading globe",
-    "selectPrompt": "Spin the globe and pick your place",
+    "selectPrompt": "Search for a city or pick a place on the globe",
     "today": "Now",
     "viewFollow": "View follows place",
     "tiltTooltip": "The Moon always turns the same face to Earth, so its surface barely changes. But where and when you look changes how it tilts in the sky. When on, the Moon is shown at the angle you'd actually see from the chosen place and time. Turn it off to freely rotate the Moon.",
@@ -39,7 +39,15 @@
     "collapse": "Collapse",
     "expand": "Expand",
     "methodology": "Methodology & FAQ",
-    "guides": "Moon guides"
+    "guides": "Moon guides",
+    "searchLocation": "Search locations",
+    "searchPlaceholder": "City name",
+    "search": "Search",
+    "searching": "Searching…",
+    "searchError": "Search failed. Try again or choose a place on the globe.",
+    "searchEmpty": "No locations found. Try another city name.",
+    "searchResults": "Choose from {{count}} locations:",
+    "locationChosen": "Selected: {{name}}"
   },
   "moon": {
     "panelTitle": "Lunar data",

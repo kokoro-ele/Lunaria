@@ -29,7 +29,7 @@
     "coordinates": "坐标",
     "pickOnGlobe": "点击地球仪选择地点",
     "loadingGlobe": "正在载入地球仪",
-    "selectPrompt": "转动地球仪，选择你的地点",
+    "selectPrompt": "搜索城市，或在地球仪上选择地点",
     "today": "此刻",
     "viewFollow": "视角追随地点",
     "tiltTooltip": "月亮始终以同一面朝向地球，所以表面几乎不变。但你在何地、何时仰望，会改变它在夜空中倾斜的角度。开启后，月亮会按你所选地点与时刻实际看到的角度呈现。关闭后可自由旋转月球。",
@@ -39,7 +39,15 @@
     "collapse": "收起",
     "expand": "展开",
     "methodology": "计算方法与常见问题",
-    "guides": "月亮指南"
+    "guides": "月亮指南",
+    "searchLocation": "搜索地点",
+    "searchPlaceholder": "输入城市名",
+    "search": "搜索",
+    "searching": "正在搜索…",
+    "searchError": "搜索失败，请重试，或在地球仪上选点。",
+    "searchEmpty": "没有找到地点，请尝试其他城市名。",
+    "searchResults": "找到 {{count}} 个地点，请选择：",
+    "locationChosen": "已选择：{{name}}"
   },
   "moon": {
     "panelTitle": "月相数据",

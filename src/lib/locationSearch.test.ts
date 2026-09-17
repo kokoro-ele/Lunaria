@@ -47,3 +47,37 @@ describe('same-name locations', () => {
     expect(normalizeLocations([lincang, simao, city, city, { ...lincang, id: 123 }])).toEqual([city, lincang, simao])
   })
 })
+
+
+describe('Chinese city aliases', () => {
+  const taizhou = { id: 1793505, name: '泰州市', latitude: 32.49069, longitude: 119.90812, admin1: '江苏' }
+
+  it('finds 泰州 through 泰州市 even when the short name has no matches', async () => {
+    const fetchMock = vi.fn(async (url: URL) => ({ ok: true, json: async () => url.searchParams.get('name') === '泰州市' ? { results: [taizhou] } : {} }))
+    vi.stubGlobal('fetch', fetchMock)
+    expect(await searchLocations('泰州', 'zh', new AbortController().signal)).toEqual([taizhou])
+    expect(fetchMock.mock.calls.map(([url]) => url.searchParams.get('name'))).toEqual(['泰州', '泰州市'])
+  })
+
+  it('also searches the short name when a city suffix is entered', async () => {
+    const fetchMock = vi.fn(async () => ({ ok: true, json: async () => ({ results: [taizhou] }) }))
+    vi.stubGlobal('fetch', fetchMock)
+    expect(await searchLocations('泰州市', 'zh', new AbortController().signal)).toEqual([taizhou])
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
+  it('retains matches when only the supplemental request fails', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (url: URL) => {
+      if (url.searchParams.get('name') === '泰州市') throw new Error('Network error')
+      return { ok: true, json: async () => ({ results: [taizhou] }) }
+    }))
+    expect(await searchLocations('泰州', 'zh', new AbortController().signal)).toEqual([taizhou])
+  })
+
+  it('propagates cancellation instead of showing partial results', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => ({ results: [taizhou] }) })))
+    const controller = new AbortController()
+    controller.abort()
+    await expect(searchLocations('泰州', 'zh', controller.signal)).rejects.toMatchObject({ name: 'AbortError' })
+  })
+})
